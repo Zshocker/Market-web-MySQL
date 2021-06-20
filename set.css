@@ -1,0 +1,30 @@
+ul.menu{
+    margin: 0; 
+    padding: 0;
+    list-style: none; 
+    border: 1px solid gray; 
+    /*width: 180px; */
+    background: blue;
+}
+ul.menu li{ 
+    border: 1px solid gray;
+    margin: 8px;
+    width: 120px; 
+    float: left;
+    }
+ul.menu li a{ 
+    border: 1px solid gray; 
+    display: block;
+    padding: 10px; 
+    background: gray;
+    color: cyan; 
+    text-decoration: none;
+    }
+ul.menu a:hover{ 
+        background: #666; 
+        color: rgb(4, 0, 255);
+        }
+.effacer
+{ 
+    clear: both;
+}
