@@ -130,7 +130,7 @@
                   CloseCon($conn);
                   ?>
                 </select>
-                <input type="submit" name='Supp' value="Supprimer">
+                <input type="submit" name='Supp' value="Supprimer" onclick="return confirm('Cette action va supprimer tous les produits de cette categorie');">
                 <button type="button" class="mi" onclick="show_elem_id('Mod');" style="margin-right: 5px;">Modifier</button>
               </div>
             </div>

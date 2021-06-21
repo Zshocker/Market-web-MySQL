@@ -17,20 +17,21 @@
   /* Style the submit button */
   .mi,input[type=submit] 
   {
-    background-color: #04AA6D;
-    color: white;
+    background-color: #b9c0bc;
+    color: black;
     padding: 12px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     float: right;
+
   }
   
   /* Style the container */
   .container {
     width: 50%;
     border-radius: 5px;
-    background-color: #3dbef1;
+    background-color: #05b4ff;
     padding: 20px;
   }
   
@@ -78,8 +79,21 @@
     }
   }
   .bar {
-    height: 75px;
+    height: 7.5%;
     width: 100%;
-    background-color: #3dbef1;
+    background-color: #0B131C;
     
+  }
+  .cont-92-5
+  {
+    height:92.5%;
+    width: 100%;
+    background-color:#dfe6e9;
+  }
+  .sidebar
+  {
+    float:left;
+    height:100%;
+    width: 250px;
+    background-color: #9c9b85;
   }

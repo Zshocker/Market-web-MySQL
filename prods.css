@@ -4,7 +4,7 @@
     width :250px;
     height:400px;
     margin: 10px;
-    background-color: rgb(207, 204, 204);
+    background-color: #b1def1;
     border-radius: 20px;
     border-color: rgb(39, 39, 195);
 }
@@ -36,4 +36,10 @@
 .Prod_name:hover
 {
     text-decoration: underline;
+}
+.reductionCls
+{
+   position: absolute;
+   border-radius: 35%;
+   background-color:rgb(6, 219, 6);
 }
