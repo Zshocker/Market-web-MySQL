@@ -1,72 +1,120 @@
 <html>
 
 <head>
-  <title>Select what To do</title>
-  <link rel="StyleSheet" href="butonns.css">
-  <link rel="stylesheet" href="styleForInscrip.css">
+  <title>Inscipt</title>
+  <link rel="StyleSheet" href="styleForInscrip.css">
+  <link rel="StyleSheet" href="prods.css">
   <script src="JS Scripts/name.js"></script>
 </head>
 
-<body background="red">
-  <button class="cybr-btn" onclick="show_elem_id('ProdAj')">
-    Ajouter des produit<span aria-hidden>_</span>
-    <span aria-hidden class="cybr-btn__glitch">Ajouter des produit</span>
-    <span aria-hidden class="cybr-btn__tag">RW</span>
-  </button><br><br>
-  <button class="cybr-btn" onclick="show_elem_id('GestCat')">
-    Gestion des categorie<span aria-hidden>_</span>
-    <span aria-hidden class="cybr-btn__glitch">Gestion des categorie</span>
-    <span aria-hidden class="cybr-btn__tag">RW</span>
-  </button><br><br>
-  <button class="cybr-btn" onclick="window.location.href='listdesProd.php';">
-    Afficher les produit<span aria-hidden>_</span>
-    <span aria-hidden class="cybr-btn__glitch">Afficher les produit</span>
-    <span aria-hidden class="cybr-btn__tag">RW</span>
-  </button>
-  <div class="modal" id='ProdAj'>
+<body style="margin:0px;">
+  <div class="bar">
+    <div style="padding-top:15px ; height:100%;">
+      <button class="mi" onclick="show_elem_id('inscrip')">Sign Up</button>
+      <button class="mi" onclick="show_elem_id('Login')" style="margin-Right: 5px;">Log In</button>
+    </div>
+  </div>
+  <div>
+    <?php
+    require_once 'ConnexionToBD.php';
+    $conn = Conect_ToBD("magasin_en_ligne", "root");
+    $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit ORDER BY id_prod ";
+    $result = $conn->query($scr);
+
+    while ($qe = $result->fetch_assoc()) {
+      $id_prod = $qe['id_prod'];
+      $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
+      $rs = $conn->query($sc_photo);
+      $rs = $rs->fetch_assoc();
+      $imag = $rs['photo'];
+      $name = $qe['Designation'];
+      $prix = $qe['prix_std'];
+      $red = floatval($qe['reduction']);
+      $red = $red * 100;
+    ?>
+      <div class="boxProd">
+        <div class="ProdImageDiv">
+          <a href="ProdInfo.php?id=<?php echo $id_prod;  ?>">
+            <center><img src="<?php echo $imag; ?>" style="width:200px;height:200px; border-radius:10px;"></center>
+          </a>
+        </div>
+        <div class="ProdInfoDiv">
+          <div style="margin: 5px;">
+            <center><a class="Prod_name" href="ProdInfo.php?id=<?php echo $id_prod;  ?>"><span> <?php echo $name;  ?></span></a></center>
+          </div>
+          <div style="margin-top: 25px; margin-left: 5px; margin-right:5px;">
+            <span style="font-weight:bold; margin:5px; float:left;"><?php echo $prix;  ?>DH</span>
+            <span style="font-weight:bold; margin:5px; float:right;"><?php echo $red;  ?>%</span>
+          </div>
+        </div>
+
+
+      </div>
+
+    <?php
+    }
+    ?>
+  </div>
+
+
+  <div class="modal" id="inscrip">
     <center>
       <div class="container">
         <div class="row">
-          <button class="mi" onclick="unshow_elem_id('ProdAj')">&times;</button>
+          <button class="mi" onclick="unshow_elem_id('inscrip')">&times;</button>
         </div>
-        <form action="produit.php" method="POST" enctype="multipart/form-data">
+        <form action="action_page.php" method="POST">
           <div class="row">
             <div class="col-25">
-              <label for="name">Prod name: </label>
+              <label for="fname">Prenom: </label>
             </div>
             <div class="col-75">
-              <input type="text" id="name" name="prodName" required>
+              <input type="text" id="fname" name="Prenom" placeholder="Votre prenom.." required>
             </div>
           </div>
           <div class="row">
             <div class="col-25">
-              <label for="prix">prod prix: </label>
+              <label for="lname">Nom: </label>
             </div>
             <div class="col-75">
-              <input type="text" id="prix" name="prodPrix" required>
+              <input type="text" id="lname" name="Nom" placeholder="votre Nom.." required>
             </div>
           </div>
           <div class="row">
             <div class="col-25">
-              <label for="red"> prod reduction: </label>
+              <label for="Email">Email: </label>
             </div>
             <div class="col-75">
-              <input type="text" id="red" name="prodRed" required>
+              <input type="text" id="Email" name="Email" placeholder="votre Email.." required>
             </div>
           </div>
           <div class="row">
             <div class="col-25">
-              <label for="Cat">prod Categorie:</label>
+              <label for="mdp">Mot de passe: </label>
             </div>
             <div class="col-75">
-              <select id="Cat" name="prodCat">
+              <input type="password" id="mdp" name="mdp" placeholder="Creer un mdp.." required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="tele">Telephone: </label>
+            </div>
+            <div class="col-75">
+              <input type="text" id="tele" name="tele" placeholder="votre Tel..">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="ville">Ville:</label>
+            </div>
+            <div class="col-75">
+              <select id="ville" name="ville">
                 <?php
-                require_once 'ConnexionToBD.php';
-                $conn = Conect_ToBD("magasin_en_ligne", "root");
-                $resultE = $conn->query("Select * from categorie");
-                while ($qe = $resultE->fetch_assoc()) {
-                  $content = $qe['label_cat'];
-                  $id = $qe['id_cat'];
+                $result = $conn->query("Select * from ville");
+                while ($qe = $result->fetch_assoc()) {
+                  $content = $qe['ville'];
+                  $id = $qe['id_ville'];
                   echo "<option value=\"$id\"> $content </option>";
                 }
                 CloseCon($conn);
@@ -76,18 +124,10 @@
           </div>
           <div class="row">
             <div class="col-25">
-              <label for="Desc">prod Description :</label>
+              <label for="adresse">Adresse</label>
             </div>
             <div class="col-75">
-              <textarea id="Desc" name="prodDescri" style="height:200px" maxlength="100" required></textarea>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-25">
-              <label for="prodImage"> prod image: </label>
-            </div>
-            <div class="col-75">
-              <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" required>
+              <textarea id="adresse" name="adresse" placeholder="Write something.." style="height:200px" maxlength="100" required></textarea>
             </div>
           </div>
           <div class="row">
@@ -97,55 +137,34 @@
       </div>
     </center>
   </div>
-  <div class="modal" id="GestCat">
+  <div class="modal" id="Login">
     <center>
       <div class="container">
         <div class="row">
-          <button class="mi" onclick="unshow_elem_id('Mod'); unshow_elem_id('GestCat');">&times;</button>
+          <button class="mi" onclick="unshow_elem_id('Login')">&times;</button>
         </div>
-        <form action="Gest_cat.php" method="POST">
+        <form action="LoginChek.php" method="POST">
           <div class="row">
             <div class="col-25">
-              <label for="catnew">New cat : </label>
+              <label for="Log">Login: </label>
             </div>
             <div class="col-75">
-              <input type="text" id="catnew" name="NewCat">
-              <input type="submit" name='Ajouter' value="Ajouter">
+              <input type="text" id="log" name="Login" placeholder="Votre Login.." required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-25">
+              <label for="md">Mot de passe: </label>
+            </div>
+            <div class="col-75">
+              <input type="password" id="md" name="mdp" placeholder="votre mot de passe.." required>
             </div>
             <div class="row">
-              <div class="col-25">
-                <label for="Cat">Si vous voulez modifier ou Supprimer une categorie:</label>
-              </div>
-              <div class="col-75">
-                <select id="Cat" name="prodCat">
-                  <?php
-                  require_once 'ConnexionToBD.php';
-                  $conn = Conect_ToBD("magasin_en_ligne", "root");
-                  $resultE = $conn->query("Select * from categorie");
-                  while ($qe = $resultE->fetch_assoc()) {
-                    $content = $qe['label_cat'];
-                    $id = $qe['id_cat'];
-                    echo "<option value=\"$id\"> $content </option>";
-                  }
-                  CloseCon($conn);
-                  ?>
-                </select>
-                <input type="submit" name='Supp' value="Supprimer">
-                <button type="button" class="mi" onclick="show_elem_id('Mod');" style="margin-right: 5px;">Modifier</button>
-              </div>
+              <input type="submit" value="Log In">
             </div>
-            <div class="row" id="Mod" style="display: none;">
-              <div class="col-25">
-                <label for="catnew">Categorie : </label>
-              </div>
-              <div class="col-75">
-                <input type="text" id="catMod" name="CatMod" placeholder="Si vous voulez modifier une categorie....">
-                <input type="submit" name='Modifier' value="Modifier">
-              </div>
         </form>
       </div>
     </center>
-
   </div>
 </body>
 

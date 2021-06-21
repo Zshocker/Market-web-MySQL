@@ -34,7 +34,7 @@
         $desc = $qe['Description'];
         $prix = $qe['prix_std'];
         $red = floatval($qe['reduction']);
-        $red = $red * 100;
+        $redP = $red * 100;
         $cat = $qe['label_cat'];
         $id_cat=$qe['id_cat'];
     ?>
@@ -43,7 +43,7 @@
                 <img src="<?php echo $imag; ?>" style="width:200px;height:200px; margin-left: 25px;">
             </div>
             <div class="col-75">
-                <?php echo "$name --- $desc --- $prix dh --- $red % --- $cat"; ?>
+                <?php echo "$name --- $desc --- $prix dh --- $redP % --- $cat"; ?>
                 <form method="POST" action="prod_D.php">
                     <input type="hidden" name="id_prod" value="<?php echo $id_prod; ?>">
                     <input type="submit" value="Delete" name="Delete"/>

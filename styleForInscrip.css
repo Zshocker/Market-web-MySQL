@@ -1,5 +1,5 @@
 /* Style inputs, select elements and textareas */
-input[type=text],input[type=password],input[type=file], select, textarea{
+  input[type=text],input[type=password],input[type=file], select, textarea{
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -33,6 +33,7 @@ input[type=text],input[type=password],input[type=file], select, textarea{
     background-color: #3dbef1;
     padding: 20px;
   }
+  
   .modal 
   {
     display: none; /* Hidden by default */
@@ -75,4 +76,10 @@ input[type=text],input[type=password],input[type=file], select, textarea{
       width: 100%;
       margin-top: 0;
     }
+  }
+  .bar {
+    height: 75px;
+    width: 100%;
+    background-color: #3dbef1;
+    
   }

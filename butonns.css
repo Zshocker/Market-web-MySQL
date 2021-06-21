@@ -10,7 +10,7 @@
   
   body 
   {
-    background-color: linear-gradient(90deg, #6fddd7 70%, #431cf3 70%), #b3ab82;
+    background-color: yellow;
     display: flex;
     align-items: center;
     flex-direction: column;
