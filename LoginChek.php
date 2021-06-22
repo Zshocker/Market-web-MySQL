@@ -5,7 +5,7 @@ if($_POST)
     $conn = Conect_ToBD("magasin_en_ligne", "root");
     $Log=$_POST['Login'];
     $pass=md5($_POST['mdp']);
-    $scr="SELECT type_uti from utilisateur NATURAL JOIN type_uti where login='$Log' and mdp='$pass' ";
+    $scr="SELECT id_uti,type_uti from utilisateur NATURAL JOIN type_uti where login='$Log' and mdp='$pass' ";
     $res=$conn->query($scr);
     $res=$res->fetch_assoc();
     var_dump($res);
@@ -15,10 +15,19 @@ if($_POST)
     }
     elseif($res["type_uti"]=="admin")
     {
-    header("Location: adminPa.php", true, 301);
+        session_start();
+        $_SESSION['id_uti']=$res['id_uti'];
+        $_SESSION['type_uti']="admin";
+        header("Location: adminPa.php", true, 301);
     }
     else
-    header("Location: index.php", true, 301);
+    {
+        session_start();
+        $_SESSION['id_uti']=$res['id_uti'];
+        $_SESSION['type_uti']="client";
+        header("Location: index.php", true, 301);
+    }
+    
     
 }
 else header("Location: index.php", true, 301);

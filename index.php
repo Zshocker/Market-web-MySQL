@@ -1,17 +1,34 @@
+<?php
+session_start();
+
+?>
 <html>
 
 <head>
   <title>Inscipt</title>
+
   <link rel="StyleSheet" href="styleForInscrip.css">
   <link rel="StyleSheet" href="prods.css">
   <script src="JS Scripts/name.js"></script>
 </head>
 
 <body style="margin:0px;">
+
   <div class="bar">
     <div style="padding-top:15px ; height:100%;">
-      <button class="mi" onclick="show_elem_id('inscrip')">Sign Up</button>
-      <button class="mi" onclick="show_elem_id('Login')" style="margin-Right: 5px;">Log In</button>
+      <?php if (!isset($_SESSION['id_uti'])) { ?>
+        <button class="mi" onclick="show_elem_id('inscrip')">Sign Up</button>
+        <button class="mi" onclick="show_elem_id('Login')" style="margin-Right: 5px;">Log In</button>
+      <?php
+      }
+      else{
+        ?>
+        <form method="POST" action="LogMeOut.php">
+        <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">Logout</input>
+        </form>
+        <?php 
+      }
+      ?>
     </div>
   </div>
   <div class="cont-92-5">
@@ -36,21 +53,20 @@
         $red = $red * 100;
       ?>
         <div class="boxProd">
-          
-          <div class="ProdImageDiv"> 
+
+          <div class="ProdImageDiv">
             <?php
-            if($red>0)
-            {
+            if ($red > 0) {
             ?>
-            <span class="reductionCls">-<?php echo $red; ?>%</span>  
+              <span class="reductionCls">-<?php echo $red; ?>%</span>
             <?php
-             }
+            }
             ?>
-            <a href="ProdInfo.php?id=<?php echo $id_prod;  ?>" > 
-            
-            <center><img src="<?php echo $imag; ?>" style="width:200px;height:200px; border-radius:10px;" ></center>
-            </a>  
-                    
+            <a href="ProdInfo.php?id=<?php echo $id_prod;  ?>">
+
+              <center><img src="<?php echo $imag; ?>" style="width:200px;height:200px; border-radius:10px;"></center>
+            </a>
+
           </div>
           <div class="ProdInfoDiv">
             <div style="margin: 5px;">
@@ -77,7 +93,7 @@
         <div class="row">
           <button class="mi" onclick="unshow_elem_id('inscrip')">&times;</button>
         </div>
-        <form action="action_page.php" method="POST">
+        <form action="insert_inscription.php" method="POST">
           <div class="row">
             <div class="col-25">
               <label for="fname">Prenom: </label>

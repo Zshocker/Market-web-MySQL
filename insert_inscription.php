@@ -8,13 +8,14 @@ if($_POST)
     $Nom=$_POST['Nom'];
     $Email=$_POST['Email'];
     $mdp=md5($_POST['mdp']);
-    $tel=$_POST['tele'];
+    if(isset($_POST['tele']))$tel=$_POST['tele'];
+    else $tel=null;
     $id_ville=intval($_POST['ville']);
     $addresse=$_POST['adresse'];
     $date=date("Y-m-d");
-    $scr="INSERT INTO inscription(nomI,prenomI,emailI,adresseI,mdpI,tele,date_inscriI,id_ville) Values('$Nom','$Pnom','$Email','$addresse','$mdp','$tel','$date',$id_ville) ";
+    $scr="INSERT INTO inscription(nomI,prenomI,emailI,adresseI,mdpI,teleI,date_inscriI,id_ville) Values('$Nom','$Pnom','$Email','$addresse','$mdp','$tel','$date',$id_ville) ";
     if(!$conn->query($scr))echo $conn->error;
     CloseCon($conn);
 }
-
+header("Location: index.php", true, 301);
 ?>
