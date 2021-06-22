@@ -8,7 +8,7 @@
     box-sizing: border-box;
   }
   
-  body 
+  .buttonDiv
   {
     background-color: yellow;
     display: flex;
@@ -20,11 +20,12 @@
     
   }
   
-  body .cybr-btn + .cybr-btn {
+  .buttonDiv .cybr-btn + .cybr-btn {
     margin-top: 2rem;
   }
   
   .cybr-btn {
+    
     --primary: hsl(var(--primary-hue), 85%, calc(var(--primary-lightness, 50) * 1%));
     --shadow-primary: hsl(var(--shadow-primary-hue), 90%, 50%);
     --primary-hue: 0;

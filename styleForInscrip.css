@@ -63,13 +63,24 @@
     width: 75%;
     margin-top: 6px;
   }
-  
+  .row
+  {
+    width: 100%;
+    height: 80px;
+  }
+  .Bigrow
+  {
+    width: 100%;
+    height: 200px;
+  }
   /* Clear floats after the columns */
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
+
+  
   
   /* Responsive layout - when the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other */
   @media screen and (max-width: 600px) {
@@ -94,8 +105,16 @@
   {
     float:left;
     height:100%;
-    width: 250px;
+    width: 15%;
     background-color: #9c9b85;
+  }
+  .MainCont
+  {
+    float: right;
+    height:100%;
+    width: 85%;
+    border:0px;
+    background-color:#dfe6e9;
   }
   .miniBut
   {
@@ -107,4 +126,23 @@
   }
   .miniBut:hover{
     cursor: pointer;
+  }
+  .sideBut
+  {
+    height: 100%;
+    width: 100%;
+    background-color:#9c9b85;
+    border: 0px;
+    color:#0B131C;
+  }
+  .sideBut:hover
+  {
+    cursor: pointer;
+    background-color:#5c5b4e;
+  }
+  .sideBDiv
+  {
+    height: 40px;
+    width: 100%;
+    background-color:#9c9b85;
   }

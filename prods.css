@@ -8,6 +8,12 @@
     border-radius: 20px;
     border-color: rgb(39, 39, 195);
 }
+.boxProd:hover {
+    opacity: 0.95;
+    transform: scale(1.05);
+    transition: 0.5s ease-in-out;
+    }
+    
 .ProdImageDiv
 {
     width: 200px;
