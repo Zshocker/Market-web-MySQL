@@ -18,7 +18,7 @@
     <span aria-hidden class="cybr-btn__glitch">Gestion des categorie</span>
     <span aria-hidden class="cybr-btn__tag">RW</span>
   </button><br><br>
-  <button class="cybr-btn" onclick="window.location.href='listdesProd.php';">
+  <button class="cybr-btn" onclick="window.location.href='ListProd.php';">
     Afficher les produit<span aria-hidden>_</span>
     <span aria-hidden class="cybr-btn__glitch">Afficher les produit</span>
     <span aria-hidden class="cybr-btn__tag">RW</span>

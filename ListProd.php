@@ -70,7 +70,7 @@ $result = $conn->query($scr);
                             <form method="POST" action="prod_D.php">
                                 <input type="hidden" name="id_prod" value="<?php echo $id_prod; ?>">
                                 <button class="miniBut" style="background-color: red;" name="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
-                                <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php echo "'$name',$prix ,$red ,$id_cat ,'$desc' ";  ?>);show_elem_id('Updater'); "><i class="fa fa-edit"></i></button>
+                                <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php  echo "'$name',$prix ,$red ,$id_cat ,'".str_replace(PHP_EOL,' ',$desc)." ' ";  ?>);show_elem_id('Updater'); "><i class="fa fa-edit"></i></button>
                             </form>
                         </td>
                     </tr>

@@ -24,7 +24,7 @@ session_start();
       else{
         ?>
         <form method="POST" action="LogMeOut.php">
-        <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">Logout</input>
+        <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
         </form>
         <?php 
       }
