@@ -38,5 +38,5 @@ elseif(isset($_POST['Modifier']))
     $conn->query($scr);
 }
 CloseCon($conn);
-header("Location: cat_G.php", true, 301);
+header("Location: adminPa.php", true, 301);
 ?>

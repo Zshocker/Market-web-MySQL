@@ -24,6 +24,8 @@
     border-radius: 4px;
     cursor: pointer;
     float: right;
+    margin-left: 2.5px;
+    margin-right:2.5px
 
   }
   
@@ -63,7 +65,7 @@
     width: 75%;
     margin-top: 6px;
   }
-  .row
+  /*.row
   {
     width: 100%;
     height: 80px;
@@ -72,7 +74,7 @@
   {
     width: 100%;
     height: 200px;
-  }
+  }*/
   /* Clear floats after the columns */
   .row:after {
     content: "";
@@ -116,14 +118,24 @@
     border:0px;
     background-color:#dfe6e9;
   }
+  .navBar
+  {
+    border: 0;
+    width: 100%;
+    height: 10%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    background-color:#c6e5f3;
+  }
   .miniBut
   {
     border:0px;
     border-radius:25%;
     width: 22px;
     height: 22px;
-    color:#0B131C;
+    color: #0B131C;
   }
+
   .miniBut:hover{
     cursor: pointer;
   }
