@@ -25,7 +25,7 @@ if($_POST)
         session_start();
         $_SESSION['id_uti']=$res['id_uti'];
         $_SESSION['type_uti']="client";
-        header("Location: index.php", true, 301);
+        header("Location: ClientPa.php", true, 301);
     }
     
     

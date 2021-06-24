@@ -47,68 +47,72 @@ $result = $conn->query($scr);
 
     <div class="cont-92-5">
         <div class="sidebar">
-            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListProd.php';">Gestion des produits</button></div>
+            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ClientPa.php';">Consulter les produits</button></div>
+            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='PanierPa.php';">Afficher Mon panier</button></div>
+            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='CommandPa.php';">Afficher Mes Commandes</button></div>
+            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
         </div>
         <div class="MainCont">
-        <div class="navBar">
-        <button class="mi" onclick="show_elem_id('ProdAj')" style="background-color:#1ebb2b;"><i class="fa fa-plus" aria-hidden="true"></i>&emsp;Ajouter des produits</button>
-        <button class="mi" onclick="show_elem_id('GestCat')" style="background-color:#1ebb2b;">Gestion des categories</button>
-        </div>
-        <div class="table-wrapper">
-            <center><table class="fl-table">
-                <thead>
-                    <tr>
-                        <th>image</th>
-                        <th>Nom</th>
-                        <th>prix</th>
-                        <th>reduction</th>
-                        <th>description</th>
-                        <th>categorie</th>
-                        <th>actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    while ($qe = $result->fetch_assoc()) {
-                        $id_prod = $qe['id_prod'];
-                        $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
-                        $rs = $conn->query($sc_photo);
-                        $rs = $rs->fetch_assoc();
-                        $imag = $rs['photo'];
-                        $name = $qe['Designation'];
-                        $desc = $qe['Description'];
-                        $prix = $qe['prix_std'];
-                        $red = floatval($qe['reduction']);
-                        $redP = $red * 100;
-                        $cat = $qe['label_cat'];
-                        $id_cat = $qe['id_cat'];
+            <div class="navBar">
+                <button class="mi" onclick="show_elem_id('ProdAj')" style="background-color:#1ebb2b;"><i class="fa fa-plus" aria-hidden="true"></i>&emsp;Ajouter des produits</button>
+                <button class="mi" onclick="show_elem_id('GestCat')" style="background-color:#1ebb2b;">Gestion des categories</button>
+            </div>
+            <div class="table-wrapper">
+                <center>
+                    <table class="fl-table">
+                        <thead>
+                            <tr>
+                                <th>image</th>
+                                <th>Nom</th>
+                                <th>prix</th>
+                                <th>reduction</th>
+                                <th>description</th>
+                                <th>categorie</th>
+                                <th>actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            while ($qe = $result->fetch_assoc()) {
+                                $id_prod = $qe['id_prod'];
+                                $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
+                                $rs = $conn->query($sc_photo);
+                                $rs = $rs->fetch_assoc();
+                                $imag = $rs['photo'];
+                                $name = $qe['Designation'];
+                                $desc = $qe['Description'];
+                                $prix = $qe['prix_std'];
+                                $red = floatval($qe['reduction']);
+                                $redP = $red * 100;
+                                $cat = $qe['label_cat'];
+                                $id_cat = $qe['id_cat'];
 
 
 
-                    ?>
-                        <tr>
-                            <td><img src="<?php echo $imag; ?>" style="width:50px;height:50px;"></td>
-                            <td><?php echo "$name" ?></td>
-                            <td><?php echo "$prix" ?></td>
-                            <td><?php echo "$redP" ?></td>
-                            <td><?php echo "$desc" ?></td>
-                            <td><?php echo "$cat" ?></td>
-                            <td>
-                                <form method="POST" action="prod_D.php">
-                                    <input type="hidden" name="id_prod" value="<?php echo $id_prod; ?>">
-                                    <button class="miniBut" style="background-color: red;" name="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
-                                    <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php echo "'$name',$prix ,$red ,$id_cat ,'" . str_replace(PHP_EOL, ' ', $desc) . " ' ";  ?>);show_elem_id('Updater'); "><i class="fa fa-edit"></i></button>
-                                </form>
-                            </td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                <tbody>
-            </table>
-            </center>
-        </div>
+                            ?>
+                                <tr>
+                                    <td><img src="<?php echo $imag; ?>" style="width:50px;height:50px;"></td>
+                                    <td><?php echo "$name" ?></td>
+                                    <td><?php echo "$prix" ?></td>
+                                    <td><?php echo "$redP" ?></td>
+                                    <td><?php echo "$desc" ?></td>
+                                    <td><?php echo "$cat" ?></td>
+                                    <td>
+                                        <form method="POST" action="prod_D.php">
+                                            <input type="hidden" name="id_prod" value="<?php echo $id_prod; ?>">
+                                            <button class="miniBut" style="background-color: red;" name="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
+                                            <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php echo "'$name',$prix ,$red ,$id_cat ,'" . str_replace(PHP_EOL, ' ', $desc) . " ' ";  ?>);show_elem_id('Updater'); "><i class="fa fa-edit"></i></button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        <tbody>
+                    </table>
+                </center>
+            </div>
         </div>
     </div>
     <div class="modal" id="Updater">
@@ -155,7 +159,7 @@ $result = $conn->query($scr);
                                     $id = $qe['id_cat'];
                                     echo "<option value=\"$id\"> $content </option>";
                                 }
-                               
+
                                 ?>
                             </select>
                         </div>
@@ -221,14 +225,14 @@ $result = $conn->query($scr);
                         <div class="col-75">
                             <select id="Cat" name="prodCat">
                                 <?php
-                                
+
                                 $resultE = $conn->query("Select * from categorie");
                                 while ($qe = $resultE->fetch_assoc()) {
                                     $content = $qe['label_cat'];
                                     $id = $qe['id_cat'];
                                     echo "<option value=\"$id\"> $content </option>";
                                 }
-                                
+
                                 ?>
                             </select>
                         </div>
