@@ -28,7 +28,7 @@ if($_POST)
         $id_photo++;
     }
     CloseCon($conn);
-    header("Location: listProd.php", true, 301);
+    header("Location: adminPa.php", true, 301);
 }
 
 ?>

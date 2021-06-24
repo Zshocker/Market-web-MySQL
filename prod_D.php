@@ -15,7 +15,7 @@ if(isset($_POST['Delete']))
     }
     $conn->query($scr_photos);
     $conn->query($scr);
-    header("Location: listProd.php", true, 301);
+    header("Location: adminPa.php", true, 301);
 }
 CloseCon($conn);
 ?>
