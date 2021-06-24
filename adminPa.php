@@ -2,7 +2,12 @@
 session_start();
 require_once 'ConnexionToBD.php';
 $conn = Conect_ToBD("magasin_en_ligne", "root");
-$scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat FROM produit NATURAL JOIN categorie ORDER BY id_prod ";
+if(isset($_GET['search']))
+{
+    $search=$_GET['search'];
+    $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat FROM produit NATURAL JOIN categorie WHERE Designation LIKE '%$search%' ORDER BY id_prod ";
+}
+else $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat FROM produit NATURAL JOIN categorie ORDER BY id_prod ";
 $result = $conn->query($scr);
 ?>
 
@@ -23,6 +28,10 @@ $result = $conn->query($scr);
             document.getElementById('red').value = PRed;
             document.getElementById('Cat').value = PCat;
             document.getElementById('Desc').value = Pdesc;
+        }
+        function Get_Search(str)
+        {
+            return document.getElementById(str).value;
         }
     </script>
 </head>
@@ -55,6 +64,8 @@ $result = $conn->query($scr);
         </div>
         <div class="MainCont">
             <div class="navBar">
+                <input type="text" name="search" class="searchBar" id="searcher" placeholder="Search">
+                <button type="submit" class="miniBut" onclick="window.location.href='adminPa.php?search='+Get_Search('searcher');" style="margin-top:8px; width: 30px; height: 32px;"><i class="fa fa-search"></i></button>
                 <button class="mi" onclick="show_elem_id('ProdAj')" style="background-color:#1ebb2b;"><i class="fa fa-plus" aria-hidden="true"></i>&emsp;Ajouter des produits</button>
                 <button class="mi" onclick="show_elem_id('GestCat')" style="background-color:#1ebb2b;">Gestion des categories</button>
             </div>

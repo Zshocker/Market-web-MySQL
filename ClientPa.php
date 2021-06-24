@@ -10,6 +10,12 @@ session_start();
     <link rel="StyleSheet" href="styleForInscrip.css">
     <link rel="StyleSheet" href="prods.css">
     <script src="JS Scripts/name.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script>
+        function Get_Search(str) {
+            return document.getElementById(str).value;
+        }
+    </script>
 </head>
 
 <body style="margin:0px;">
@@ -34,64 +40,72 @@ session_start();
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='PanierPa.php';">Afficher Mon panier</button></div>
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='CommandPa.php';">Afficher Mes Commandes</button></div>
             <?php
-            if($_SESSION['type_uti']=='admin')
-            {
+            if ($_SESSION['type_uti'] == 'admin') {
             ?>
-            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
-            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
+                <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
+                <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
             <?php
             }
             ?>
         </div>
-        <div>
-            <?php
-            require_once 'ConnexionToBD.php';
-            $conn = Conect_ToBD("magasin_en_ligne", "root");
-            $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit ORDER BY id_prod ";
-            $result = $conn->query($scr);
+        <div class="MainCont">
+            <div class="navBar">
+                <input type="text" name="search" class="searchBar" id="searcher" placeholder="Search">
+                <button class="miniBut" onclick="window.location.href='ClientPa.php?search='+Get_Search('searcher');" style="margin-top:8px; width: 30px; height: 32px;"><i class="fa fa-search"></i></button>
+            </div>
+            <div>
+                <?php
+                require_once 'ConnexionToBD.php';
+                $conn = Conect_ToBD("magasin_en_ligne", "root");
+                if ($_GET) {
+                    $ser = $_GET['search'];
+                    $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit WHERE Designation LIKE '%$ser%' ORDER BY id_prod ";
+                } else $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit ORDER BY id_prod ";
+                $result = $conn->query($scr);
 
-            while ($qe = $result->fetch_assoc()) {
-                $id_prod = $qe['id_prod'];
-                $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
-                $rs = $conn->query($sc_photo);
-                $rs = $rs->fetch_assoc();
-                $imag = $rs['photo'];
-                $name = $qe['Designation'];
-                $prix = $qe['prix_std'];
-                $red = floatval($qe['reduction']);
-                $red = $red * 100;
-            ?>
-                <div class="boxProd">
+                while ($qe = $result->fetch_assoc()) {
+                    $id_prod = $qe['id_prod'];
+                    $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
+                    $rs = $conn->query($sc_photo);
+                    $rs = $rs->fetch_assoc();
+                    $imag = $rs['photo'];
+                    $name = $qe['Designation'];
+                    $prix = $qe['prix_std'];
+                    $red = floatval($qe['reduction']);
+                    $red = $red * 100;
+                ?>
+                    <div class="boxProd">
 
-                    <div class="ProdImageDiv">
-                        <?php
-                        if ($red > 0) {
-                        ?>
-                            <span class="reductionCls">-<?php echo $red; ?>%</span>
-                        <?php
-                        }
-                        ?>
-                        <a href="ProdInfo.php?id=<?php echo $id_prod;  ?>">
+                        <div class="ProdImageDiv">
+                            <?php
+                            if ($red > 0) {
+                            ?>
+                                <span class="reductionCls">-<?php echo $red; ?>%</span>
+                            <?php
+                            }
+                            ?>
+                            <a href="ProdInfo.php?id=<?php echo $id_prod;  ?>">
 
-                            <center><img src="<?php echo $imag; ?>" style="width:200px;height:200px; border-radius:10px;"></center>
-                        </a>
+                                <center><img src="<?php echo $imag; ?>" style="width:200px;height:200px; border-radius:10px;"></center>
+                            </a>
+
+                        </div>
+                        <div class="ProdInfoDiv">
+                            <div style="margin: 5px;">
+                                <center><a class="Prod_name" href="ProdInfo.php?id=<?php echo $id_prod;  ?>"><span> <?php echo $name;  ?></span></a></center>
+                            </div>
+                            <div style="margin-top: 25px; margin-left: 5px; margin-right:5px;">
+                                <span style="font-weight:bold; margin:5px; float:left;"><?php echo $prix;  ?>DH</span>
+                            </div>
+                        </div>
+
 
                     </div>
-                    <div class="ProdInfoDiv">
-                        <div style="margin: 5px;">
-                            <center><a class="Prod_name" href="ProdInfo.php?id=<?php echo $id_prod;  ?>"><span> <?php echo $name;  ?></span></a></center>
-                        </div>
-                        <div style="margin-top: 25px; margin-left: 5px; margin-right:5px;">
-                            <span style="font-weight:bold; margin:5px; float:left;"><?php echo $prix;  ?>DH</span>
-                        </div>
-                    </div>
 
-
-                </div>
-
-            <?php
-            }
-            ?>
+                <?php
+                }
+                ?>
+            </div>
         </div>
     </div>
 
