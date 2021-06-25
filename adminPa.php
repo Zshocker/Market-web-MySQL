@@ -106,7 +106,7 @@ $result = $conn->query($scr);
                                     <td><img src="<?php echo $imag; ?>" style="width:50px;height:50px;"></td>
                                     <td><?php echo "$name" ?></td>
                                     <td><?php echo "$prix" ?></td>
-                                    <td><?php echo "$redP" ?></td>
+                                    <td><?php echo "$redP" ?>%</td>
                                     <td><?php echo "$desc" ?></td>
                                     <td><?php echo "$cat" ?></td>
                                     <td>

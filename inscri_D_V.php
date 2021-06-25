@@ -34,13 +34,21 @@ elseif(isset($_POST['accept']))
     }while(!empty($qe['login']));
 
     $scr1= "INSERT INTO utilisateur(nom,prenom,email,adresse,login,mdp,tele,date_inscris,id_type,id_ville) VALUES('$name','$prenom','$email','$adresse','$login','$mdp',$tele,'$date',2,$ville) ";
+   
     if(!$conn->query($scr1))
     {
         echo $conn->error;
     }
-    else{
+    else
+    {
+    $id_cli=$conn->insert_id;
     $scr="DELETE FROM inscription WHERE id_inscri=$id_inscri";
     $res=$conn->query($scr);
+    $scr1="INSERT INTO panier(id_uti) VALUES($id_cli)";
+    $res=$conn->query($scr1);
+    $id_panier=$conn->insert_id;
+    $scr1="INSERT INTO utilisateur(id_panier) VALUES($id_panier) where id_uti=$id_cli";
+    $conn->query($scr1);
     Send_Login_to($email,$login);
     header("Location: ListInscri.php", true, 301);
     }
