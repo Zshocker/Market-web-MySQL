@@ -13,10 +13,11 @@ function checkoneName(str)
    }
    return true;
 }
-function check_one(str)
+function check_Empty(str)
 {
-    if(checkoneName(str))alert('Good');
-    else alert('Not good');
+    var V=document.getElementById(str).value;
+    if(V=="")return false;
+    return true;
 }
 function show_elem_id(str) 
 {
@@ -35,4 +36,8 @@ function remove_html_by_id(id)
 {
     var insa=document.getElementById(id);
     insa.remove();
+}
+function switchSrcImg(idF,idI)
+{
+    document.getElementById(idF).src=document.getElementById(idI).src;
 }
