@@ -65,6 +65,7 @@ session_start();
             $id_prod = $qe['id_prod'];
             $sc_photo = "SELECT id_photo,photo FROM photo where id_prod=$id_prod";
             $rs = $conn->query($sc_photo);
+            $photos=$rs->fetch_all(MYSQLI_ASSOC);
             $name = $qe['Designation'];
             $desc=$qe['description'];
             $cat=$qe['label_cat'];
@@ -76,19 +77,33 @@ session_start();
             <div class="ProdDetailCont">
                 <div class="imagesProdCont">
                     <div class="MainImageCont">
-                        <div class="MainImageS">
-                        </div>
+                        <img class="MainImageS" src="<?php echo $photos[0]['photo']?>" id="MainImageFe">
                     </div>
                     <div class="SwipeDiv">
                         <div class="arrows">
-
+                        <center>
+                        <button onclick="shift_left('myse')"><i class="fa fa-angle-left"></i></button>
+                        </center>
                         </div>
-                        <div class="SwipeBar">
+                        <div class="SwipeBar" id="myse">
+                        <?php 
+                        $i=0;
+                        foreach ($photos as $phot)
+                        {$i++;
+                        ?>
+                        <img src="<?php echo $phot['photo'];?>" id="minphoto-<?php echo $i;?>" onclick="switchSrcImg('MainImageFe','minphoto-<?php echo $i; ?>')">
+                        <?php
+                        }
+                        ?>
                         </div>
-                        <div class="arrows">
+                        <div class="arrows" >
+                        <center>
+                        <button onclick="shift_Right('myse')"><i class="fa fa-angle-right"></i></button>
+                        </center>
                         </div>
                     </div>
                 </div>
+                <div class="Second-Detail">
                 <div class="mainDetailFr">
                     <span class="MainText"><?php echo $name;?></span><hr style="border-block-color: black;margin: top 4px ;" ><hr style="border-block-color: black;margin: top 4px;">
                     <span style="font-size:25px;">Prix:  <span style="color:#B12704; "><?php echo $red1;?> dh    </span></span>
@@ -101,15 +116,18 @@ session_start();
                      <br><br><br><br><br>
                      <span style="font-size:25px;">Categorie: <br></span>
                      <span style="font-size:20px;"><?php echo $cat;?></span>
+                     
                 </div>
+               
                 <div class="Comand">
+                <hr style="border-block-color: black;margin: top 4px ; bottom:0;" >
                     <form action="PanierFill.php" method="POST">
                     <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
                     <button type="submit" name="ButnAj" class="mi">Ajouter aux panier </button>
                     <input type="text" name="qte" placeholder="qte" style="width:15%; float:right" onkeypress="return onlyNumberKey(event)" required>
                     </form>
                 </div>
-
+                </div>
             </div>
 
 
@@ -236,5 +254,17 @@ session_start();
                 return false;
             return true;
         }
+        function shift_Right(id)
+        {
+            var CWE=document.getElementById(id);
+            CWE.scrollLeft+=180;
+            
+        }
+        function shift_left(id)
+        {
+            var CWE=document.getElementById(id);
+            CWE.scrollLeft-=180;
+        }
+
 </script>
 </html>

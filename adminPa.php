@@ -188,9 +188,10 @@ $result = $conn->query($scr);
                         <div class="col-25">
                             <label for="prodImage">Ajouter des images: </label>
                         </div>
-                        <div class="col-75">
-                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple">
+                        <label><div class="col-75" style="height:100px;">
+                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" style="height:100px;" required>
                         </div>
+                        </label>
                     </div>
                     <div class="row">
                         <input type="submit" name="Submit" value="Update" onclick="return confirm('Are you sure?');">
@@ -261,9 +262,10 @@ $result = $conn->query($scr);
                         <div class="col-25">
                             <label for="prodImage"> prod image: </label>
                         </div>
-                        <div class="col-75">
-                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" required>
+                        <label><div class="col-75" style="height:100px;">
+                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" style="height:100px;" required>
                         </div>
+                        </label>
                     </div>
                     <div class="row">
                         <input type="submit" value="Submit">
