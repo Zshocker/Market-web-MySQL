@@ -33,7 +33,7 @@ $result = $conn->query($scr);
             if (!onlyNumberKey(evt)) return false;
             var val = document.getElementById('qte-' + id).value;
             var tval = Number(val) * 10 + (evt.keyCode - 48);
-            if (tval > qte) return false;
+            //if (tval > qte) return false;
             var element = document.getElementById('hiddqte-' + id);
             if (typeof(element) != 'undefined' && element != null)
             {
@@ -107,6 +107,7 @@ $result = $conn->query($scr);
             ?>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
+                <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListUti.php';">Afficher les utilisateurs</button></div>
             <?php
             }
             ?>
