@@ -187,12 +187,14 @@
   }
   .imagesProdCont
   {
+    float: left;
     height: 100%;
     width: 40%;
     background-color:#5c5b4e;
   }
   .MainImageCont
   {
+    float: left;
     width: 100%;
     height: 65%;
     padding-top: 10%;
@@ -234,3 +236,22 @@
     width: 100%;
     height: 30%;
   }
+.mainDetailFr
+{
+  height: 60%;
+  width: 59%;
+  float: right;
+  padding-left: 3px;
+}
+.MainText
+{
+  font-size: 50px;
+  font-weight: bold;
+  color: black;
+}
+.Comand
+{
+  height: 20%;
+  width: 100%;
+  
+}

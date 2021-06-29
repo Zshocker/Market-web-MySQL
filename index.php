@@ -22,11 +22,7 @@ session_start();
       <?php
       }
       else{
-        ?>
-        <form method="POST" action="LogMeOut.php">
-        <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
-        </form>
-        <?php 
+        header("Location: clientPa.php",true,301 );
       }
       ?>
     </div>

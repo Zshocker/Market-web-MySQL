@@ -58,7 +58,7 @@ session_start();
             $conn = Conect_ToBD("magasin_en_ligne", "root");
             if (isset($_GET['id'])) {
                 $ser = $_GET['id'];
-                $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit WHERE id_prod=$ser";
+                $scr = "SELECT id_prod,Designation,prix_std,description,reduction,label_cat FROM produit natural join categorie WHERE id_prod=$ser";
             } else header('location: index.php', true, 301);
             $result = $conn->query($scr);
             $qe = $result->fetch_assoc();
@@ -66,9 +66,11 @@ session_start();
             $sc_photo = "SELECT id_photo,photo FROM photo where id_prod=$id_prod";
             $rs = $conn->query($sc_photo);
             $name = $qe['Designation'];
+            $desc=$qe['description'];
+            $cat=$qe['label_cat'];
             $prix = $qe['prix_std'];
             $red = floatval($qe['reduction']);
-            $red = $red * 100;
+            $red1 = $prix-$prix*$red;
             ?>
 
             <div class="ProdDetailCont">
@@ -79,7 +81,7 @@ session_start();
                     </div>
                     <div class="SwipeDiv">
                         <div class="arrows">
-                            
+
                         </div>
                         <div class="SwipeBar">
                         </div>
@@ -87,7 +89,26 @@ session_start();
                         </div>
                     </div>
                 </div>
-
+                <div class="mainDetailFr">
+                    <span class="MainText"><?php echo $name;?></span><hr style="border-block-color: black;margin: top 4px ;" ><hr style="border-block-color: black;margin: top 4px;">
+                    <span style="font-size:25px;">Prix:  <span style="color:#B12704; "><?php echo $red1;?> dh    </span></span>
+                    <?php 
+                    if($red>0){ echo "<del style='font-size:20px; color:grey;'>$prix dh</del>"; }
+                    ?>
+                    <br><br><br><br><br>
+                     <span style="font-size:25px;">Description: <br></span>
+                     <span style="font-size:20px;"><?php echo $desc;?></span>
+                     <br><br><br><br><br>
+                     <span style="font-size:25px;">Categorie: <br></span>
+                     <span style="font-size:20px;"><?php echo $cat;?></span>
+                </div>
+                <div class="Comand">
+                    <form action="PanierFill.php" method="POST">
+                    <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
+                    <button type="submit" name="ButnAj" class="mi">Ajouter aux panier </button>
+                    <input type="text" name="qte" placeholder="qte" style="width:15%; float:right" onkeypress="return onlyNumberKey(event)" required>
+                    </form>
+                </div>
 
             </div>
 
@@ -207,5 +228,13 @@ session_start();
     </div>
 </body>
 <script src="JS Scripts/name.js"></script>
-
+<script>
+    function onlyNumberKey(evt) {
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if ((ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+</script>
 </html>
