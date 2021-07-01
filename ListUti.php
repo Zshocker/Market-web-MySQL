@@ -188,7 +188,8 @@ $result = $conn->query($scr);
                             <label for="typeu">Type</label>
                         </div>
                         <div class="col-75">
-                            <select id="type" name="type">
+                            <select id="type" name="type" required>
+                                <option ></option>
                                 <?php
 
                                 $resultE = $conn->query("Select * from type_uti");
