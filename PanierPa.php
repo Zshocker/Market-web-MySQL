@@ -16,80 +16,18 @@ $result = $conn->query($scr);
     <link rel="StyleSheet" href="tableStyle.css">
     <link rel="StyleSheet" href="prods.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script>
-        function Get_Search(str) {
-            return document.getElementById(str).value;
-        }
-
-        function onlyNumberKey(evt) {
-            // Only ASCII character in that range allowed
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-            if ((ASCIICode < 48 || ASCIICode > 57))
-                return false;
-            return true;
-        }
-
-        function chek_qte(evt, id, qte) {
-            if (!onlyNumberKey(evt)) return false;
-            var val = document.getElementById('qte-' + id).value;
-            var tval = Number(val) * 10 + (evt.keyCode - 48);
-            //if (tval > qte) return false;
-            var element = document.getElementById('hiddqte-' + id);
-            if (typeof(element) != 'undefined' && element != null)
-            {
-                element.value=tval;
-            }
-            return true;
-        }
-
-        function Research(str, evt) {
-            var val = Get_Search(str);
-            if (evt.which != 13) val += String.fromCharCode(evt.which);
-            var ters = document.getElementsByName('prod');
-            var len = ters.length;
-            for (var i = 0; i < len; i++) {
-                ters[i].style.removeProperty('display');
-                var id = ters[i].id;
-                var name = document.getElementById('name-' + id).innerHTML;
-                if (name.toLocaleLowerCase().indexOf((val).toLocaleLowerCase()) < 0)
-                    ters[i].style.display = "none";
-
-            }
-        }
-
-        function Gest_hidden(id) {
-            var check = document.getElementById('check-' + id);
-            var fer = document.getElementById('formCom');
-            if (check.checked) {
-                fer.innerHTML += '<input type="hidden" id="hiddId-' + id + '" name="prods[]" value="' + id + '">';
-                var qte = document.getElementById('qte-' + id).value;
-                fer.innerHTML += '<input type="hidden" id="hiddqte-' + id + '" name="qte[]" value="' + qte + '">';
-            } else {
-                var element = document.getElementById('hiddId-' + id);
-                if (typeof(element) != 'undefined' && element != null) {
-                    var lud=document.getElementById('hiddqte-'+id);
-                    element.remove();
-                    lud.remove();
-                }
-            }
-        }
-        function Delete(id_prod)
-        {
-            if(!confirm("Are you sure"))return false;
-            window.location.href='Delete_from_pan.php?id='+id_prod;
-        }
-    </script>
+    
 </head>
 
 <body style="margin:0px;">
     <div class="bar">
-        <div style="padding-top:15px ; height:100%;">
+        <div style="height:100%;">
         <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) {
                 header("Location: index.php", true, 301);
             } else {
             ?>
-                <form method="POST" action="LogMeOut.php" style="float:right;">
+                <form method="POST" action="LogMeOut.php" style="float:right; margin:0px">
                     <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
                 </form>
             <?php
@@ -159,8 +97,8 @@ $result = $conn->query($scr);
                                     <td name="cat"><?php echo "$cat" ?></td>
                                     <td name="qte"><?php echo "$qte" ?></td>
                                     <td name="checked">
-                                        <input type="text" id="qte-<?php echo "$id_prod" ?>" style="width: 40%; height:75%;" placeholder="qte a commander" onkeypress="return chek_qte(event,'<?php echo $id_prod; ?>',<?php echo $qte; ?>)">
-                                        <input type="checkbox" id="check-<?php echo "$id_prod" ?>" onclick="Gest_hidden('<?php echo $id_prod; ?>')">
+                                        <input type="number" id="qte-<?php echo "$id_prod" ?>" name="qte" placeholder="qte" class="myInput"  style="width: 40%; height:75%;"  placeholder="qte a commander" value="<?php echo $qte; ?>" min="1" onchange="chek_qte(event,'<?php echo $id_prod; ?>',<?php echo $qte; ?>)" required>
+                                        <input type="checkbox" id="check-<?php echo "$id_prod" ?>" onchange="Gest_hidden('<?php echo $id_prod; ?>')">
                                         <button class="miniBut" style="background-color: red; width:30px; height: 30px;" name="Delete" onclick="Delete('<?php echo $id_prod; ?>'); "><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>
@@ -180,5 +118,72 @@ $result = $conn->query($scr);
     </div>
 
 </body>
+<script>
+        function Get_Search(str) {
+            return document.getElementById(str).value;
+        }
 
+        function onlyNumberKey(evt) {
+            // Only ASCII character in that range allowed
+            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
+            if ((ASCIICode < 48 || ASCIICode > 57))
+                return false;
+            return true;
+        }
+
+        function chek_qte(evt, id, qte) {
+            if (!onlyNumberKey(evt)) return false;
+            var val = document.getElementById('qte-' + id).value;
+            if(Number(val)<=0)document.getElementById('check-' + id).checked=false;
+            var element = document.getElementById('hiddqte-' + id);
+            if (typeof(element) != 'undefined' && element != null)
+            {
+                element.value=val;
+            }
+            return true;
+        }
+
+        function Research(str, evt) {
+            var val = Get_Search(str);
+            if (evt.which != 13) val += String.fromCharCode(evt.which);
+            var ters = document.getElementsByName('prod');
+            var len = ters.length;
+            for (var i = 0; i < len; i++) {
+                ters[i].style.removeProperty('display');
+                var id = ters[i].id;
+                var name = document.getElementById('name-' + id).innerHTML;
+                if (name.toLocaleLowerCase().indexOf((val).toLocaleLowerCase()) < 0)
+                    ters[i].style.display = "none";
+
+            }
+        }
+
+        function Gest_hidden(id) {
+            var check = document.getElementById('check-' + id);
+            var valueCon= document.getElementById('qte-' + id).value;
+            if(Number(valueCon)<=0){
+                check.checked=false;
+                return;
+            }
+
+            var fer = document.getElementById('formCom');
+            if (check.checked) {
+                fer.innerHTML += '<input type="hidden" id="hiddId-' + id + '" name="prods[]" value="' + id + '">';
+                var qte = document.getElementById('qte-' + id).value;
+                fer.innerHTML += '<input type="hidden" id="hiddqte-' + id + '" name="qte[]" value="' + qte + '">';
+            } else {
+                var element = document.getElementById('hiddId-' + id);
+                if (typeof(element) != 'undefined' && element != null) {
+                    var lud=document.getElementById('hiddqte-'+id);
+                    element.remove();
+                    lud.remove();
+                }
+            }
+        }
+        function Delete(id_prod)
+        {
+            if(!confirm("Are you sure"))return false;
+            window.location.href='Delete_from_pan.php?id='+id_prod;
+        }
+    </script>
 </html>

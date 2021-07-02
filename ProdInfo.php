@@ -16,7 +16,7 @@ session_start();
 <body style="margin:0px;">
 
     <div class="bar">
-        <div style="padding-top:15px ; height:100%;">
+        <div style="height:100%;">
         <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) { ?>
                 <button class="mi" onclick="show_elem_id('inscrip')">Sign Up</button>
@@ -24,7 +24,7 @@ session_start();
             <?php
             } else {
             ?>
-                <form method="POST" action="LogMeOut.php" style="float:right;">
+                <form method="POST" action="LogMeOut.php" style="float:right; margin:0px">
                     <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
                 </form>
             <?php
@@ -125,7 +125,7 @@ session_start();
                     <form action="PanierFill.php" method="POST">
                     <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
                     <button type="submit" name="ButnAj" class="mi">Ajouter aux panier </button>
-                    <input type="text" name="qte" placeholder="qte" style="width:15%; float:right" onkeypress="return onlyNumberKey(event)" required>
+                    <input type="number" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right" value="1" min="1"  required>
                     </form>
                 </div>
                 <?php } ?>
@@ -249,13 +249,6 @@ session_start();
 </body>
 <script src="JS Scripts/name.js"></script>
 <script>
-    function onlyNumberKey(evt) {
-            // Only ASCII character in that range allowed
-            var ASCIICode = (evt.which) ? evt.which : evt.keyCode
-            if ((ASCIICode < 48 || ASCIICode > 57))
-                return false;
-            return true;
-        }
         function shift_Right(id)
         {
             var CWE=document.getElementById(id);

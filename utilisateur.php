@@ -11,7 +11,6 @@ if($_POST)
     $adresseu=$_POST['adresse'];
     $mdpu=md5($_POST['mdp']); 
     $teleu=$_POST['tele'];
-    $teleu=$_POST['tele'];
     $id_typeu=intval($_POST['type']);
     $date=date("Y-m-d");
     $id_ville=intval($_POST['ville']);
@@ -35,17 +34,17 @@ if($_POST)
         echo $conn->error;
     }
     else
-    {
-    
+    {   
+        $id_cli=$conn->insert_id;
+        $scr1="INSERT INTO panier(id_uti) VALUES($id_cli)";
+        $res=$conn->query($scr1);
+        $id_panier=$conn->insert_id;
+        $scr1="INSERT INTO utilisateur(id_panier) VALUES($id_panier) where id_uti=$id_cli";
+        $conn->query($scr1);
     
     Send_Login_to($emailu,$login);
-    header("Location: ListUti.php", true, 301);
     }
-    
-    CloseCon($conn);
-    header("Location: ListUti.php", true, 301);
+    CloseCon($conn);   
 }
-
-
-
+header("Location: ListUti.php", true, 301);
 ?>

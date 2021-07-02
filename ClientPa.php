@@ -21,13 +21,13 @@ session_start();
 <body style="margin:0px;">
 
     <div class="bar">
-        <div style="padding-top:15px ; height:100%;">
+        <div style="height:100%;">
             <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) {
                 header("Location: index.php", true, 301);
             } else {
             ?>
-                <form method="POST" action="LogMeOut.php" style="float:right;">
+                <form method="POST" action="LogMeOut.php" style="float:right; margin:0px">
                     <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
                 </form>
             <?php

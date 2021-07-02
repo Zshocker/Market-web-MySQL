@@ -1,5 +1,5 @@
 /* Style inputs, select elements and textareas */
-  input[type=text],input[type=password],input[type=file], select, textarea{
+  input[type=text],input[type=password],input[type=file], select, textarea,.myInput{
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -95,7 +95,7 @@
   .bar {
     height: 10%;
     width: 100%;
-    background-color: #0B131C;
+    background-color: #385980;
     
   }
   .cont-92-5
@@ -121,6 +121,7 @@
   }
   .navBar
   {
+    float: right;
     border: 0;
     width: 100%;
     /*height: 7.5%;*/

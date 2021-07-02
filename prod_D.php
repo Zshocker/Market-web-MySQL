@@ -5,6 +5,7 @@ if(isset($_POST['Delete']))
 {
     $id_Prod=$_POST['id_prod'];
     $scr="DELETE FROM produit WHERE id_prod=$id_Prod";
+    $scr_panier="DELETE FROM avoir_pan_pro WHERE id_prod=$id_Prod";
     $scr_photos="DELETE FROM photo WHERE id_prod=$id_Prod";
     $sele="SELECT photo From photo where id_prod=$id_Prod";
     $res=$conn->query($sele);
@@ -14,6 +15,7 @@ if(isset($_POST['Delete']))
         unlink($qe);
     }
     $conn->query($scr_photos);
+    $conn->query($scr_panier);
     $conn->query($scr);
     header("Location: adminPa.php", true, 301);
 }

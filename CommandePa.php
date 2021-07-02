@@ -24,18 +24,18 @@ $result = $conn->query($scr);
 
 <body style="margin:0px;">
     <div class="bar">
-        <div style="padding-top:15px ; height:100%;">
+        <div style="height:100%;">
             <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) {
                 header("Location: index.php", true, 301);
             } else {
-                ?>
-                <form method="POST" action="LogMeOut.php" style="float:right;">
+            ?>
+                <form method="POST" action="LogMeOut.php" style="float:right; margin:0px">
                     <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
                 </form>
             <?php
-        }
-        ?>
+            }
+            ?>
         </div>
     </div>
 
@@ -46,13 +46,13 @@ $result = $conn->query($scr);
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='CommandePa.php';">Afficher Mes Commandes</button></div>
             <?php
             if ($_SESSION['type_uti'] == 'admin') {
-                ?>
+            ?>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListUti.php';">Afficher les utilisateurs</button></div>
             <?php
-        }
-        ?>
+            }
+            ?>
         </div>
         <div class="MainCont">
             <div class="navBar">
@@ -66,7 +66,7 @@ $result = $conn->query($scr);
                             <th>id_commande</th>
                             <th>date_com</th>
                             <th>adresse_liv</th>
-                            <th>id_uti</th>
+                            <th>prix Totale</th>
                             <th>etat</th>
                             <th>type paiement</th>
                             <th> informations paiement </th>
@@ -87,12 +87,24 @@ $result = $conn->query($scr);
                             $id_paiementCa = $qe['id_paiementCa'];
                             //$type_c=$qe['type_carte'];
 
-                            ?>
+                        ?>
                             <tr>
                                 <td><?php echo "$id_commande" ?></td>
                                 <td><?php echo "$date" ?></td>
                                 <td><?php echo "$adresse" ?></td>
-                                <td><?php echo "$id_uti" ?></td>
+                                <td>
+                                    <?php
+                                    $scr = "SELECT * FROM ligne_commande NATURAL JOIN produit where id_commande=$id_commande";
+                                    $resulta= $conn->query($scr);
+                                    $prixTot=0;
+                                    while($qe=$resulta->fetch_assoc())
+                                    {
+                                        $prixTot+=($qe['prix_std']-$qe['prix_std']*$qe['reduction_ins'])*$qe['quantite'];
+                                    }
+                                    echo $prixTot;
+
+                                    ?>
+                                dh</td>
                                 <td><?php echo "$etat" ?></td>
                                 <td><?php if ($id_paiementE != '') {
                                         $var = 1;
@@ -115,22 +127,23 @@ $result = $conn->query($scr);
                                             $res = $conn->query($scr);
                                             $res = $res->fetch_assoc();
                                             $tp = $res['date_paiementE'];
-                                            echo "$tp";
+                                            echo " date de paiement:$tp";
                                         } elseif ($var == 3) {
-                                            ?>
+                                        ?>
                                         <button class="miniBut" style="background-color: aqua;" name="afficher" onclick="show_elem_id('info_cheque-<?php echo $id_commande; ?>')"><i class="fa fa-plus"></i></button>
                                     <?php
 
-                                }  ?></td>
+                                        }  ?>
+                                </td>
                                 <td>
-                                <button class="miniBut" style="background-color: aqua;" name="afficher1" onclick="show_elem_id('info_com-<?php echo $id_commande; ?>')"><i class="fa fa-plus"></i></button>
+                                    <button class="miniBut" style="background-color: aqua;" name="afficher1" onclick="show_elem_id('info_com-<?php echo $id_commande; ?>')"><i class="fa fa-plus"></i></button>
 
                                 </td>
 
                             </tr>
                         <?php
-                    }
-                    ?>
+                        }
+                        ?>
                     <tbody>
                 </table>
             </div>
@@ -141,7 +154,7 @@ $result = $conn->query($scr);
     $res = $conn->query($scr);
     while ($qe = $res->fetch_assoc()) {
         $id_commande = $qe['id_commande'];
-        ?>
+    ?>
         <div class="modal" id="info_cheque-<?php echo $id_commande; ?>">
             <center>
 
@@ -169,16 +182,16 @@ $result = $conn->query($scr);
                                         $datee = $q['date_ech'];
                                         $montant = $q['montant'];
 
-                                        ?>
+                                    ?>
                                         <tr>
                                             <td><?php echo "$datep"; ?></td>
                                             <td><?php echo "$datee"; ?></td>
-                                            <td><?php echo "$montant"; ?></td>
+                                            <td><?php echo "$montant"; ?>dh</td>
 
                                         </tr>
                                     <?php
-                                }
-                                ?>
+                                    }
+                                    ?>
                                 <tbody>
                             </table>
                         </div>
@@ -193,14 +206,14 @@ $result = $conn->query($scr);
 
 
     <?php
-}
-?>
-<?php
+    }
+    ?>
+    <?php
     $scr = "SELECT distinct id_commande from commande NATURAL JOIN ligne_commande where $id_uti=id_uti";
     $res = $conn->query($scr);
     while ($qe = $res->fetch_assoc()) {
         $id_commande = $qe['id_commande'];
-        ?>
+    ?>
         <div class="modal" id="info_com-<?php echo $id_commande; ?>">
             <center>
 
@@ -216,7 +229,7 @@ $result = $conn->query($scr);
                                         <th>produit</th>
                                         <th>quantité</th>
                                         <th>réduction</th>
-                                        
+                                        <th>prix d'achat(1 unite)</th>
 
                                     </tr>
                                 </thead>
@@ -224,41 +237,41 @@ $result = $conn->query($scr);
                                     <?php
                                     $scr = "SELECT * FROM ligne_commande NATURAL JOIN produit where id_commande=$id_commande";
                                     $result = $conn->query($scr);
-                                    $mt=0;
+                                    $mt = 0;
                                     while ($q = $result->fetch_assoc()) {
                                         $nomp = $q['designation'];
                                         $qte = $q['quantite'];
-                                        $red = $q['reduction_ins']*100;
-                                        
+                                        $red = $q['reduction_ins'] * 100;
+                                        $prix=$q['prix_std']-$q['prix_std']*$q['reduction_ins'];
 
-                                        ?>
+                                    ?>
                                         <tr>
                                             <td><?php echo "$nomp"; ?></td>
                                             <td><?php echo "$qte"; ?></td>
                                             <td><?php echo "$red%"; ?></td>
-                                            
+                                            <td><?=$prix ?></td>
 
                                         </tr>
                                     <?php
-                                }
-                                ?>
+                                    }
+                                    ?>
                                 <tbody>
                             </table>
-                            
+
                         </div>
                     </div>
                 </div>
 
             </center>
         </div>
-        
+
 
 
 
 
     <?php
-}
-?>
+    }
+    ?>
 
 
 </body>

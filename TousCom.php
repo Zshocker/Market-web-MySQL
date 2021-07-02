@@ -24,14 +24,14 @@ $result = $conn->query($scr);
 
 <body style="margin:0px;">
     <div class="bar">
-        <div style="padding-top:15px ; height:100%;">
+        <div style=" height:100%;">
             <?php if (!isset($_SESSION['id_uti'])) {
                 header("Location: index.php", true, 301);
             } elseif ($_SESSION['type_uti'] != 'admin') {
                 header("Location: index.php", true, 301);
             } else {
                 ?>
-                <form method="POST" action="LogMeOut.php">
+                <form method="POST" action="LogMeOut.php" style="float:right; margin:0px">
                     <input type="submit" value="logout" name="Logout" class="mi" onclick="return confirm('Are you sure?');">
                 </form>
             <?php
@@ -118,20 +118,6 @@ $result = $conn->query($scr);
                                             <?php 
 
                                         }  ?></td>
-                                        
-                                
-
-
-
-                                <!--<td>
-                                        <form method="POST" action="inscri_D_V.php">
-                                            <input type="hidden" name="id_inscri" value="<?php 
-                                                                                            ?>*/">
-                                            <button class="miniBut" style="background-color:hsl(120, 100%, 75%); margin-left: 5px;" name="accept" onclick="return confirm('Are you sure?');"><i class="fa fa-check"></i></button>
-                                            <button class="miniBut" style="background-color: red;" name="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
-
-                                        </form>
-                                    </td>-->
                             </tr>
                         <?php
                     }
