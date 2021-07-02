@@ -25,10 +25,9 @@ $result = $conn->query($scr);
 <body style="margin:0px;">
     <div class="bar">
         <div style="padding-top:15px ; height:100%;">
-        <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
+            <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) {
                 header("Location: index.php", true, 301);
-            
             } else {
                 ?>
                 <form method="POST" action="LogMeOut.php" style="float:right;">
@@ -42,18 +41,18 @@ $result = $conn->query($scr);
 
     <div class="cont-92-5">
         <div class="sidebar">
-        <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ClientPa.php';">Consulter les produits</button></div>
+            <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ClientPa.php';">Consulter les produits</button></div>
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='PanierPa.php';">Afficher Mon panier</button></div>
             <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='CommandePa.php';">Afficher Mes Commandes</button></div>
             <?php
             if ($_SESSION['type_uti'] == 'admin') {
-            ?>
+                ?>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='adminPa.php';">Gestion des produits</button></div>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListInscri.php';">Afficher les inscription</button></div>
                 <div class="sideBDiv"><button class="sideBut" onclick="window.location.href='ListUti.php';">Afficher les utilisateurs</button></div>
             <?php
-            }
-            ?>
+        }
+        ?>
         </div>
         <div class="MainCont">
             <div class="navBar">
@@ -71,6 +70,7 @@ $result = $conn->query($scr);
                             <th>etat</th>
                             <th>type paiement</th>
                             <th> informations paiement </th>
+                            <th> informations commande </th>
 
 
                         </tr>
@@ -122,6 +122,10 @@ $result = $conn->query($scr);
                                     <?php
 
                                 }  ?></td>
+                                <td>
+                                <button class="miniBut" style="background-color: aqua;" name="afficher1" onclick="show_elem_id('info_com-<?php echo $id_commande; ?>')"><i class="fa fa-plus"></i></button>
+
+                                </td>
 
                             </tr>
                         <?php
@@ -180,9 +184,74 @@ $result = $conn->query($scr);
                         </div>
                     </div>
                 </div>
-        
-        </center>
+
+            </center>
         </div>
+
+
+
+
+
+    <?php
+}
+?>
+<?php
+    $scr = "SELECT distinct id_commande from commande NATURAL JOIN ligne_commande where $id_uti=id_uti";
+    $res = $conn->query($scr);
+    while ($qe = $res->fetch_assoc()) {
+        $id_commande = $qe['id_commande'];
+        ?>
+        <div class="modal" id="info_com-<?php echo $id_commande; ?>">
+            <center>
+
+                <div class="container">
+                    <div class="row">
+                        <button class="mi" onclick="unshow_elem_id('info_com-<?php echo $id_commande; ?>');">&times;</button>
+                    </div>
+                    <div class="row">
+                        <div class="table-wrapper">
+                            <table class="fl-table">
+                                <thead>
+                                    <tr>
+                                        <th>produit</th>
+                                        <th>quantité</th>
+                                        <th>réduction</th>
+                                        
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $scr = "SELECT * FROM ligne_commande NATURAL JOIN produit where id_commande=$id_commande";
+                                    $result = $conn->query($scr);
+                                    $mt=0;
+                                    while ($q = $result->fetch_assoc()) {
+                                        $nomp = $q['designation'];
+                                        $qte = $q['quantite'];
+                                        $red = $q['reduction_ins']*100;
+                                        
+
+                                        ?>
+                                        <tr>
+                                            <td><?php echo "$nomp"; ?></td>
+                                            <td><?php echo "$qte"; ?></td>
+                                            <td><?php echo "$red%"; ?></td>
+                                            
+
+                                        </tr>
+                                    <?php
+                                }
+                                ?>
+                                <tbody>
+                            </table>
+                            
+                        </div>
+                    </div>
+                </div>
+
+            </center>
+        </div>
+        
 
 
 
