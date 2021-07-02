@@ -6,11 +6,9 @@ session_start();
 
 <head>
     <title>Inscipt</title>
-
     <link rel="StyleSheet" href="styleForInscrip.css">
     <link rel="StyleSheet" href="prods.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="CssFontA/css/all.css">
 </head>
 
 <body style="margin:0px;">
@@ -124,7 +122,7 @@ session_start();
                     <hr style="border-block-color: black;margin: top 4px ; bottom:0;" >
                     <form action="PanierFill.php" method="POST">
                     <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
-                    <button type="submit" name="ButnAj" class="mi">Ajouter aux panier </button>
+                    <button type="submit" name="ButnAj" class="mi"><i class="fas fa-cart-plus" style="color:blue;"></i>  Ajouter aux panier </button>
                     <input type="number" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right" value="1" min="1"  required>
                     </form>
                 </div>

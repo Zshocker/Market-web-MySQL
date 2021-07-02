@@ -28,7 +28,7 @@ if(isset($_POST['ButnAj']))
 }
 
 CloseCon($conn);
-header("Location: index.php",true,301);
+header("Location: PanierPa.php",true,301);
 
 
 

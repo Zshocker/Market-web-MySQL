@@ -10,7 +10,7 @@ session_start();
     <link rel="StyleSheet" href="styleForInscrip.css">
     <link rel="StyleSheet" href="prods.css">
     <script src="JS Scripts/name.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"  href="CssFontA/css/all.css">
     <script>
         function Get_Search(str) {
             return document.getElementById(str).value;
