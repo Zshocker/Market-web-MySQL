@@ -300,14 +300,15 @@ $result = $conn->query($scr);
                         </div>
                         <div class="col-75">
                             <input type="text" id="catnew" name="NewCat">
-                            <input type="submit" name='Ajouter' value="Ajouter">
+                            <input type="submit" id="catnewBut" name='Ajouter' value="Ajouter">
                         </div>
                         <div class="row">
                             <div class="col-25">
                                 <label for="Cat">Si vous voulez modifier ou Supprimer une categorie:</label>
                             </div>
                             <div class="col-75">
-                                <select id="Cat" name="prodCat">
+                                <select id="CatSelect" name="prodCat">
+                                <option></option>
                                     <?php
                                     $resultE = $conn->query("Select * from categorie");
                                     while ($qe = $resultE->fetch_assoc()) {
@@ -318,8 +319,8 @@ $result = $conn->query($scr);
                                     CloseCon($conn);
                                     ?>
                                 </select>
-                                <input type="submit" name='Supp' value="Supprimer" onclick="return confirm('Cette action va supprimer tous les produits de cette categorie');">
-                                <button type="button" class="mi" onclick="show_elem_id('Mod');" style="margin-right: 5px;">Modifier</button>
+                                <input type="submit" name='Supp' value="Supprimer" id="SuppCat" onclick="return confirm('Cette action va supprimer tous les produits de cette categorie');">
+                                <button type="button" class="mi" id="ModfiBut" onclick="unshow_elem_id('ModfiBut');  show_elem_id('Mod');" style="margin-right: 5px;">Modifier</button>
                             </div>
                         </div>
                         <div class="row" id="Mod" style="display: none;">
@@ -328,13 +329,14 @@ $result = $conn->query($scr);
                             </div>
                             <div class="col-75">
                                 <input type="text" id="catMod" name="CatMod" placeholder="Si vous voulez modifier une categorie....">
-                                <input type="submit" name='Modifier' value="Modifier">
+                                <input type="submit" id="ModiferButFinnale" name='Modifier' value="Modifier">
                             </div>
                 </form>
             </div>
         </center>
 
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         function insert_value_prod(PName, PRed, PCat, Pdesc, PprixF) {
             document.getElementById('name').value = PName;
@@ -358,6 +360,48 @@ $result = $conn->query($scr);
                 MyImages[i].remove();
             }
         }
+        $("#catnew").keyup(function(){
+            if(this.value!="")
+            {
+                $("#CatSelect").attr("disabled","disabled");
+                $("#SuppCat").attr("disabled","disabled");
+                $("#ModfiBut").attr("disabled","disabled");    
+                $('#ModiferButFinnale').attr("disabled","disabled");
+                $("#catMod").attr("disabled","disabled");
+            }
+            else{
+                $("#CatSelect").removeAttr("disabled");
+                $("#SuppCat").removeAttr("disabled");
+                $("#ModfiBut").removeAttr("disabled");    
+                $('#ModiferButFinnale').removeAttr("disabled");
+                $("#catMod").removeAttr("disabled");
+            }
+        });
+        $("#CatSelect").change(function()
+        {
+            if(this.value!="")
+            {
+                $("#catnew").attr("disabled","disabled");
+                $("#catnewBut").attr("disabled","disabled");
+            }else{
+                $("#catnew").removeAttr("disabled");
+                $("#catnewBut").removeAttr("disabled");
+            }   
+        });
+        $("#catnewBut").click(function(){
+            if($("#catnew").val()=="")
+            {
+                return false;
+            }
+            return true;
+        })
+        $("#ModiferButFinnale").click(function(){
+            if($("#catMod").val()=="")
+            {
+                return false;
+            }
+            return true;
+        })
     </script>
 
 </body>
