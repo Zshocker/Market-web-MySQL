@@ -1,6 +1,6 @@
 <?php
 session_start();
-
+require_once 'Myfonctions.php';
 ?>
 <html>
 
@@ -15,7 +15,7 @@ session_start();
 
     <div class="bar">
         <div style="height:100%;">
-        <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
+            <a href="index.php"><img src="rw-markets.png" style="width:auto; height:75%; margin-left:25px;"></a>
             <?php if (!isset($_SESSION['id_uti'])) { ?>
                 <button class="mi" onclick="show_elem_id('inscrip')">Sign Up</button>
                 <button class="mi" onclick="show_elem_id('Login')" style="margin-Right: 5px;">Log In</button>
@@ -64,78 +64,89 @@ session_start();
             $id_prod = $qe['id_prod'];
             $sc_photo = "SELECT id_photo,photo FROM photo where id_prod=$id_prod";
             $rs = $conn->query($sc_photo);
-            $photos=$rs->fetch_all(MYSQLI_ASSOC);
+            $photos = $rs->fetch_all(MYSQLI_ASSOC);
             $name = $qe['Designation'];
-            $desc=$qe['description'];
-            $cat=$qe['label_cat'];
+            $desc = $qe['description'];
+            $cat = $qe['label_cat'];
             $prix = $qe['prix_std'];
             $red = floatval($qe['reduction']);
-            $red1 = $prix-$prix*$red;
+            $red1 = $prix - $prix * $red;
             ?>
 
             <div class="ProdDetailCont">
                 <div class="imagesProdCont">
                     <div class="MainImageCont">
-                        <img class="MainImageS" src="<?php echo $photos[0]['photo']?>" id="MainImageFe">
+                        <img class="MainImageS" src="<?php echo $photos[0]['photo'] ?>" id="MainImageFe">
                     </div>
                     <div class="SwipeDiv">
                         <div class="arrows">
-                        <center>
-                        <button onclick="shift_left('myse')"><i class="fa fa-angle-left"></i></button>
-                        </center>
+                            <center>
+                                <button onclick="shift_left('myse')"><i class="fa fa-angle-left"></i></button>
+                            </center>
                         </div>
                         <div class="SwipeBar" id="myse">
-                        <?php 
-                        $i=0;
-                        foreach ($photos as $phot)
-                        {$i++;
-                        ?>
-                        <img src="<?php echo $phot['photo'];?>" id="minphoto-<?php echo $i;?>" onclick="switchSrcImg('MainImageFe','minphoto-<?php echo $i; ?>')">
-                        <?php
-                        }
-                        ?>
+                            <?php
+                            $i = 0;
+                            foreach ($photos as $phot) {
+                                $i++;
+                            ?>
+                                <img src="<?php echo $phot['photo']; ?>" id="minphoto-<?php echo $i; ?>" onclick="switchSrcImg('MainImageFe','minphoto-<?php echo $i; ?>')">
+                            <?php
+                            }
+                            ?>
                         </div>
-                        <div class="arrows" >
-                        <center>
-                        <button onclick="shift_Right('myse')"><i class="fa fa-angle-right"></i></button>
-                        </center>
+                        <div class="arrows">
+                            <center>
+                                <button onclick="shift_Right('myse')"><i class="fa fa-angle-right"></i></button>
+                            </center>
                         </div>
                     </div>
                 </div>
                 <div class="Second-Detail">
-                <div class="mainDetailFr">
-                    <span class="MainText"><?php echo $name;?></span><hr style="border-block-color: black;margin: top 4px ;" ><hr style="border-block-color: black;margin: top 4px;">
-                    <span style="font-size:25px;">Prix: 
-                    <?php 
-                    if($red>0){ echo "<del style='font-size:20px; color:grey;'>$prix dh</del>"; }
-                    ?></span>
-                    <br>
-                    <span style="font-size:25px;">Prix apres reduction:  <span style="color:#B12704; "><?php echo $red1;?> dh    </span></span>
-                    <br><br><br><br><br>
-                     <span style="font-size:25px;">Description: <br></span>
-                     <span style="font-size:20px;"><?php echo $desc;?></span>
-                     <br><br><br><br><br>
-                     <span style="font-size:25px;">Categorie: <br></span>
-                     <span style="font-size:20px;"><?php echo $cat;?></span>
-                     
-                </div>
-               <?php if(isset($_SESSION['id_uti'])){ ?>
-                <div class="Comand">
-                    <hr style="border-block-color: black;margin: top 4px ; bottom:0;" >
-                    <form action="Command.php" method="POST" id="formCom" style="float: right;">
-                    <input type="hidden" name="prods[]"  value="<?=$ser?>">
-                    <input type="hidden" name="qte[]" id="hiddenQte" value="1" required>
-                    <input type="hidden" name="Not_pan" value="true">
-                    <button class="mi" type="submit" name="Commander" onclick="return confirm_value();" style="background-color:cadetblue;" >Acheter maintenant</button>
-                    </form>
-                    <form action="PanierFill.php" method="POST" style="float:right" >
-                    <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
-                    <button type="submit" name="ButnAj" class="mi"><i class="fas fa-cart-plus" style="color:blue;"></i>  Ajouter aux panier </button>
-                    <input type="number" id="MyQte" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right; " value="1" min="1" onchange="change_other(this.value)" required>
-                    </form>
-                    
-                </div>
-                <?php } ?>
+                    <div class="mainDetailFr">
+                        <span class="MainText"><?php echo $name; ?></span>
+                        <hr style="border-block-color: black;margin: top 4px ;">
+                        <hr style="border-block-color: black;margin: top 4px;">
+                        <span style="font-size:25px;">Prix:
+                            <?php
+                            if ($red > 0) {
+                                echo "<del style='font-size:20px; color:grey;'>$prix dh</del>";
+                            }
+                            ?></span>
+                        <br>
+                        <span style="font-size:25px;">Prix apres reduction: <span style="color:#B12704; "><?php echo $red1; ?> dh </span></span>
+                        <br><br><br>
+                        <span style="font-size:25px;">Description: <br></span>
+                        <span style="font-size:20px;"><?php echo $desc; ?></span>
+                        <br><br><br>
+                        <span style="font-size:25px;">Categorie: <br></span>
+                        <span style="font-size:20px;"><?php echo $cat; ?></span>
+                        <br><br><br>
+                        <span style="font-size:25px;">Stock:</span>
+                        <span style="font-size:20px;"><?php
+                        $qant=Get_qte($id_prod);
+                        if($qant<=0)echo "<b style='color:red;'>Out of stock</b>";
+                        else echo $qant." unite";
+                        ?></span>
+
+                    </div>
+                    <?php if (isset($_SESSION['id_uti'])) { ?>
+                        <div class="Comand">
+                            <hr style="border-block-color: black;margin: top 4px ; bottom:0;">
+                            <form action="Command.php" method="POST" id="formCom" style="float: right;">
+                                <input type="hidden" name="prods[]" value="<?= $ser ?>">
+                                <input type="hidden" name="qte[]" id="hiddenQte" value="1" required>
+                                <input type="hidden" name="Not_pan" value="true">
+                                <button class="mi" type="submit" name="Commander" onclick="return confirm_value();" style="background-color:cadetblue;">Acheter maintenant</button>
+                            </form>
+                            <form action="PanierFill.php" method="POST" style="float:right">
+                                <input type="hidden" name="id_prod" value="<?php echo $ser; ?>">
+                                <button type="submit" name="ButnAj" class="mi"><i class="fas fa-cart-plus" style="color:blue;"></i> Ajouter aux panier </button>
+                                <input type="number" id="MyQte" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right; " value="1" min="1" onchange="change_other(this.value)" required>
+                            </form>
+
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
 
@@ -256,27 +267,26 @@ session_start();
 </body>
 <script src="JS Scripts/name.js"></script>
 <script>
-        function shift_Right(id)
-        {
-            var CWE=document.getElementById(id);
-            CWE.scrollLeft+=180;
-            
-        }
-        function shift_left(id)
-        {
-            var CWE=document.getElementById(id);
-            CWE.scrollLeft-=180;
-        }
-        function change_other(vav)
-        {
-            document.getElementById('hiddenQte').value=vav;
-        }
-        function confirm_value()
-        {
-           var Vw= document.getElementById('MyQte').value;
-           if(Vw>0)return true;
-           return false;
-        }
+    function shift_Right(id) {
+        var CWE = document.getElementById(id);
+        CWE.scrollLeft += 180;
 
+    }
+
+    function shift_left(id) {
+        var CWE = document.getElementById(id);
+        CWE.scrollLeft -= 180;
+    }
+
+    function change_other(vav) {
+        document.getElementById('hiddenQte').value = vav;
+    }
+
+    function confirm_value() {
+        var Vw = document.getElementById('MyQte').value;
+        if (Vw > 0) return true;
+        return false;
+    }
 </script>
+
 </html>

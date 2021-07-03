@@ -33,7 +33,7 @@ elseif(isset($_POST['accept']))
 
     }while(!empty($qe['login']));
 
-    $scr1= "INSERT INTO utilisateur(nom,prenom,email,adresse,login,mdp,tele,date_inscris,id_type,id_ville) VALUES('$name','$prenom','$email','$adresse','$login','$mdp',$tele,'$date',2,$ville) ";
+    $scr1= "INSERT INTO utilisateur(nom,prenom,email,adresse,login,mdp,tele,date_inscris,id_type,id_ville) VALUES('$name','$prenom','$email','$adresse','$login','$mdp','$tele','$date',2,$ville) ";
    
     if(!$conn->query($scr1))
     {

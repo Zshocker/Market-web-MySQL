@@ -27,7 +27,7 @@ if($_POST)
 
 
 
-    $scr="INSERT INTO utilisateur (nom,prenom,email,adresse,login,mdp,tele,date_inscris,id_type,id_ville) Values('$nomu','$prenomu','$emailu','$adresseu','$login','$mdpu',$teleu,'$date',$id_typeu,$id_ville)";
+    $scr="INSERT INTO utilisateur (nom,prenom,email,adresse,login,mdp,tele,date_inscris,id_type,id_ville) Values('$nomu','$prenomu','$emailu','$adresseu','$login','$mdpu','$teleu','$date',$id_typeu,$id_ville)";
     
     if(!$conn->query($scr))
     {
