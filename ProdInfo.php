@@ -105,10 +105,12 @@ session_start();
                 <div class="Second-Detail">
                 <div class="mainDetailFr">
                     <span class="MainText"><?php echo $name;?></span><hr style="border-block-color: black;margin: top 4px ;" ><hr style="border-block-color: black;margin: top 4px;">
-                    <span style="font-size:25px;">Prix:  <span style="color:#B12704; "><?php echo $red1;?> dh    </span></span>
+                    <span style="font-size:25px;">Prix: 
                     <?php 
                     if($red>0){ echo "<del style='font-size:20px; color:grey;'>$prix dh</del>"; }
-                    ?>
+                    ?></span>
+                    <br>
+                    <span style="font-size:25px;">Prix apres reduction:  <span style="color:#B12704; "><?php echo $red1;?> dh    </span></span>
                     <br><br><br><br><br>
                      <span style="font-size:25px;">Description: <br></span>
                      <span style="font-size:20px;"><?php echo $desc;?></span>
@@ -120,11 +122,18 @@ session_start();
                <?php if(isset($_SESSION['id_uti'])){ ?>
                 <div class="Comand">
                     <hr style="border-block-color: black;margin: top 4px ; bottom:0;" >
-                    <form action="PanierFill.php" method="POST">
+                    <form action="Command.php" method="POST" id="formCom" style="float: right;">
+                    <input type="hidden" name="prods[]"  value="<?=$ser?>">
+                    <input type="hidden" name="qte[]" id="hiddenQte" value="1" required>
+                    <input type="hidden" name="Not_pan" value="true">
+                    <button class="mi" type="submit" name="Commander" onclick="return confirm_value();" style="background-color:cadetblue;" >Acheter maintenant</button>
+                    </form>
+                    <form action="PanierFill.php" method="POST" style="float:right" >
                     <input type="hidden" name="id_prod" value="<?php echo $ser;?>">
                     <button type="submit" name="ButnAj" class="mi"><i class="fas fa-cart-plus" style="color:blue;"></i>  Ajouter aux panier </button>
-                    <input type="number" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right" value="1" min="1"  required>
+                    <input type="number" id="MyQte" name="qte" placeholder="qte" class="myInput" style="width:15%; float:right; " value="1" min="1" onchange="change_other(this.value)" required>
                     </form>
+                    
                 </div>
                 <?php } ?>
                 </div>
@@ -257,6 +266,16 @@ session_start();
         {
             var CWE=document.getElementById(id);
             CWE.scrollLeft-=180;
+        }
+        function change_other(vav)
+        {
+            document.getElementById('hiddenQte').value=vav;
+        }
+        function confirm_value()
+        {
+           var Vw= document.getElementById('MyQte').value;
+           if(Vw>0)return true;
+           return false;
         }
 
 </script>

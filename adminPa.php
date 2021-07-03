@@ -2,38 +2,24 @@
 session_start();
 require_once 'ConnexionToBD.php';
 $conn = Conect_ToBD("magasin_en_ligne", "root");
-if(isset($_GET['search']))
-{
-    $search=$_GET['search'];
-    $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat FROM produit NATURAL JOIN categorie WHERE Designation LIKE '%$search%' ORDER BY id_prod ";
-}
-else $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat FROM produit NATURAL JOIN categorie ORDER BY id_prod ";
+if (isset($_GET['search'])) {
+    $search = $_GET['search'];
+    $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat,prix_barre FROM produit NATURAL JOIN categorie WHERE Designation LIKE '%$search%' ORDER BY id_prod ";
+} else $scr = "SELECT id_prod,Designation,Description,prix_std,reduction,label_cat,id_cat,prix_barre FROM produit NATURAL JOIN categorie ORDER BY id_prod ";
 $result = $conn->query($scr);
 ?>
 
 <html>
 
 <head>
+    <meta charset="UTF-8">
     <title>Les produits</title>
     <script src="JS Scripts/name.js"></script>
     <link rel="StyleSheet" href="styleForInscrip.css">
     <link rel="StyleSheet" href="tableStyle.css">
     <link rel="StyleSheet" href="prods.css">
-
     <link rel="stylesheet" href="CssFontA/css/all.css">
-    <script>
-        function insert_value_prod(PName, PPrix, PRed, PCat, Pdesc) {
-            document.getElementById('name').value = PName;
-            document.getElementById('prix').value = PPrix;
-            document.getElementById('red').value = PRed;
-            document.getElementById('Cat').value = PCat;
-            document.getElementById('Desc').value = Pdesc;
-        }
-        function Get_Search(str)
-        {
-            return document.getElementById(str).value;
-        }
-    </script>
+
 </head>
 
 <body style="margin:0px;">
@@ -89,10 +75,10 @@ $result = $conn->query($scr);
                             <?php
                             while ($qe = $result->fetch_assoc()) {
                                 $id_prod = $qe['id_prod'];
-                                $sc_photo = "SELECT MIN(id_photo),photo FROM photo where id_prod=$id_prod";
+                                $sc_photo = "SELECT id_photo,photo FROM photo where id_prod=$id_prod";
                                 $rs = $conn->query($sc_photo);
-                                $rs = $rs->fetch_assoc();
-                                $imag = $rs['photo'];
+                                $rs = $rs->fetch_all(MYSQLI_ASSOC);
+                                $imag = $rs[0]['photo'];
                                 $name = $qe['Designation'];
                                 $desc = $qe['Description'];
                                 $prix = $qe['prix_std'];
@@ -100,7 +86,7 @@ $result = $conn->query($scr);
                                 $redP = $red * 100;
                                 $cat = $qe['label_cat'];
                                 $id_cat = $qe['id_cat'];
-
+                                $prixF = $qe['prix_barre'];
 
 
                             ?>
@@ -115,7 +101,15 @@ $result = $conn->query($scr);
                                         <form method="POST" action="prod_D.php">
                                             <input type="hidden" name="id_prod" value="<?php echo $id_prod; ?>">
                                             <button class="miniBut" style="background-color: red;" name="Delete" onclick="return confirm('Are you sure?');"><i class="fa fa-trash"></i></button>
-                                            <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php echo "'$name',$prix ,$red ,$id_cat ,'" . str_replace(PHP_EOL, ' ', $desc) . " ' ";  ?>);show_elem_id('Updater'); "><i class="far fa-edit"></i></button>
+                                            <button type="button" class="miniBut" style="background-color:aqua; margin-left: 5px;" onclick="add_hidden_value_id('FormUp',<?php echo $id_prod; ?>,'id_prod');insert_value_prod(<?php echo "'$name',$red ,$id_cat ,'" . str_replace(PHP_EOL, ' ', $desc) . "','$prixF'  ";  ?>); delete_All_other_images(); <?php
+                                                                                                                                                                                                                                                                                                                                                        foreach ($rs as $img) {
+                                                                                                                                                                                                                                                                                                                                                            $id = $img['id_photo'];
+                                                                                                                                                                                                                                                                                                                                                            $image = $img['photo'];
+                                                                                                                                                                                                                                                                                                                                                        ?>
+                                                add_images_ToMod(<?= $id ?>,'<?= str_replace('\\', '\\\\', $image) ?>');
+                                            <?php
+                                                                                                                                                                                                                                                                                                                                                        }
+                                            ?> show_elem_id('Updater'); "><i class="far fa-edit"></i></button>
                                         </form>
                                     </td>
                                 </tr>
@@ -145,14 +139,6 @@ $result = $conn->query($scr);
                     </div>
                     <div class="row">
                         <div class="col-25">
-                            <label for="prix">prod prix: </label>
-                        </div>
-                        <div class="col-75">
-                            <input type="text" id="prix" name="prodPrix" required>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-25">
                             <label for="red"> prod reduction: </label>
                         </div>
                         <div class="col-75">
@@ -179,6 +165,14 @@ $result = $conn->query($scr);
                     </div>
                     <div class="row">
                         <div class="col-25">
+                            <label for="prix">Prix barre: </label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="prixF" name="fake_prix">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
                             <label for="Desc">prod Description :</label>
                         </div>
                         <div class="col-75">
@@ -189,10 +183,19 @@ $result = $conn->query($scr);
                         <div class="col-25">
                             <label for="prodImage">Ajouter des images: </label>
                         </div>
-                        <label><div class="col-75" style="height:100px;">
-                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" style="height:100px;" required>
-                        </div>
+                        <label>
+                            <div class="col-75" style="height:100px;">
+                                <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" style="height:100px;">
+                            </div>
                         </label>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="prodImage">Selectione les image a supprimer: </label>
+                        </div>
+                        <div class="col-75" style="height:100px;" id="WhereImagesGo">
+
+                        </div>
                     </div>
                     <div class="row">
                         <input type="submit" name="Submit" value="Update" onclick="return confirm('Are you sure?');">
@@ -213,7 +216,7 @@ $result = $conn->query($scr);
                             <label for="name">Prod name: </label>
                         </div>
                         <div class="col-75">
-                            <input type="text" id="name" name="prodName" required>
+                            <input type="text" id="nameA" name="prodName" required>
                         </div>
                     </div>
                     <div class="row">
@@ -221,7 +224,15 @@ $result = $conn->query($scr);
                             <label for="prix">prod prix: </label>
                         </div>
                         <div class="col-75">
-                            <input type="text" id="prix" name="prodPrix" required>
+                            <input type="text" id="prixA" name="prodPrix" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-25">
+                            <label for="prix">Prix barré: </label>
+                        </div>
+                        <div class="col-75">
+                            <input type="text" id="prixFA" name="fake_prix">
                         </div>
                     </div>
                     <div class="row">
@@ -229,7 +240,7 @@ $result = $conn->query($scr);
                             <label for="red"> prod reduction: </label>
                         </div>
                         <div class="col-75">
-                            <input type="text" id="red" name="prodRed" required>
+                            <input type="text" id="redA" name="prodRed" required>
                         </div>
                     </div>
                     <div class="row">
@@ -237,7 +248,7 @@ $result = $conn->query($scr);
                             <label for="Cat">prod Categorie:</label>
                         </div>
                         <div class="col-75">
-                            <select id="Cat" name="prodCat">
+                            <select id="CatA" name="prodCat">
                                 <?php
 
                                 $resultE = $conn->query("Select * from categorie");
@@ -261,11 +272,12 @@ $result = $conn->query($scr);
                     </div>
                     <div class="row">
                         <div class="col-25">
-                            <label for="prodImage"> prod image: </label>
+                            <label for="prodImage"> prod images: </label>
                         </div>
-                        <label><div class="col-75" style="height:100px;">
-                            <input type="file" id="prodImage" name="prodImage[]" multiple="multiple" style="height:100px;" required>
-                        </div>
+                        <label>
+                            <div class="col-75" style="height:100px;">
+                                <input type="file" id="prodImageA" name="prodImage[]" multiple="multiple" style="height:100px;" required>
+                            </div>
                         </label>
                     </div>
                     <div class="row">
@@ -323,7 +335,30 @@ $result = $conn->query($scr);
         </center>
 
     </div>
+    <script>
+        function insert_value_prod(PName, PRed, PCat, Pdesc, PprixF) {
+            document.getElementById('name').value = PName;
+            document.getElementById('red').value = PRed;
+            document.getElementById('Cat').value = PCat;
+            document.getElementById('Desc').value = Pdesc;
+            if (PprixF != "") document.getElementById('prixF').value = PprixF;
+        }
 
+        function Get_Search(str) {
+            return document.getElementById(str).value;
+        }
+
+        function add_images_ToMod(idphot, scr) {
+            document.getElementById('WhereImagesGo').innerHTML += ' <div class="MiniImageCont"><label><input type="checkbox" name="ImagesToDelete[]" value="' + idphot + '" style="position:absolute;">   <img src="' + scr + '" class="miniImge"><label></div>  ';
+        }
+
+        function delete_All_other_images() {
+            var MyImages = document.getElementById('WhereImagesGo').getElementsByClassName('MiniImageCont');
+            for (let i = 0; i < MyImages.length; i++) {
+                MyImages[i].remove();
+            }
+        }
+    </script>
 
 </body>
 

@@ -218,13 +218,14 @@
     display: flex;
     overflow: hidden;
   }
-  .SwipeBar img
+  .SwipeBar img,.miniImge
   {
     width: 80px;
     height: 80px;
     border-color: #0B131C;
     cursor: pointer;
     margin: 5px;
+    border-style: solid;
   }
   .arrows
   {
@@ -277,4 +278,8 @@
     height: 100%;
     width: 59%;
 
+}
+.MiniImageCont{
+  float: left;
+  
 }

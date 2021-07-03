@@ -7,6 +7,7 @@ if ($_POST) {
     $tabPRods = $_POST['prods'];
     $tabqte = $_POST['qte'];
     $prixTot = 0;
+   
 ?>
     <html>
 
@@ -43,6 +44,13 @@ if ($_POST) {
             <div class="table-wrapper">
                
                     <form method="POST" action="PassCommande.php">
+                        <?php 
+                        if(isset($_POST['Not_pan'])){
+                        ?>
+                        <input type="hidden" name="Not_pan" value="true">
+                        <?php 
+                        }
+                        ?>
                         <table class="fl-table">
                             <thead>
                                 <tr>

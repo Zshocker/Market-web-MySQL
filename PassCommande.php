@@ -59,6 +59,7 @@ if(isset($_POST['Confirm']))
         $red=getRed($id_prod,$conn);
         $scr="INSERT INTO ligne_commande(reduction_ins,quantite,id_commande,id_prod) VALUES($red,$qte,$id_Comm,$id_prod)";
         $conn->query($scr);
+        if(!isset($_POST['Not_pan'])){
         $qte_pan=getQtePanier($id_prod,$conn,$id_pan);
         if($qte_pan<=$qte)
         {
@@ -71,7 +72,7 @@ if(isset($_POST['Confirm']))
             $scr="UPDATE avoir_pan_pro SET qte=$qte where id_panier=$id_pan and id_prod=$id_prod";
             $conn->query($scr);
         }
-
+    }
     }
 CloseCon($conn);
 }

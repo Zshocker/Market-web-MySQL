@@ -60,13 +60,13 @@ $result = $conn->query($scr);
                     <table class="fl-table">
                         <thead>
                             <tr>
+                                <th>Confirmer</th>
                                 <th>image</th>
                                 <th>Nom</th>
                                 <th>prix</th>
                                 <th>reduction</th>
                                 <th>description</th>
                                 <th>categorie</th>
-                                <th>qte</th>
                                 <th>actions</th>
                             </tr>
                         </thead>
@@ -89,16 +89,17 @@ $result = $conn->query($scr);
 
                             ?>
                                 <tr name="prod" id="<?php echo "$id_prod" ?>">
+                                    <td>
+                                    <input type="checkbox" id="check-<?php echo "$id_prod" ?>" onchange="Gest_hidden('<?php echo $id_prod; ?>')">
+                                    </td>
                                     <td name="Image"><img src="<?php echo $imag; ?>" style="width:50px;height:50px;"></td>
                                     <td id="name-<?php echo "$id_prod" ?>"><?php echo "$name" ?></td>
                                     <td id="prix-<?php echo "$id_prod" ?>"><?php echo "$prix" ?></td>
                                     <td name="reduction"><?php echo "$redP" ?>%</td>
                                     <td name="desc"><?php echo "$desc" ?></td>
                                     <td name="cat"><?php echo "$cat" ?></td>
-                                    <td name="qte"><?php echo "$qte" ?></td>
                                     <td name="checked">
-                                        <input type="number" id="qte-<?php echo "$id_prod" ?>" name="qte" placeholder="qte" class="myInput"  style="width: 40%; height:75%;"  placeholder="qte a commander" value="<?php echo $qte; ?>" min="1" onchange="chek_qte(event,'<?php echo $id_prod; ?>',<?php echo $qte; ?>)" required>
-                                        <input type="checkbox" id="check-<?php echo "$id_prod" ?>" onchange="Gest_hidden('<?php echo $id_prod; ?>')">
+                                        Qte a commander:<input type="number" id="qte-<?php echo "$id_prod" ?>" name="qte" placeholder="qte" class="myInput"  style="width: 60px; height:75%;"  placeholder="qte a commander" value="<?php echo $qte; ?>" min="1" onchange="chek_qte(event,'<?php echo $id_prod; ?>',<?php echo $qte; ?>)" required>
                                         <button class="miniBut" style="background-color: red; width:30px; height: 30px;" name="Delete" onclick="Delete('<?php echo $id_prod; ?>'); "><i class="fa fa-trash"></i></button>
                                     </td>
                                 </tr>

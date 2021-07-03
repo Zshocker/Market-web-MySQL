@@ -8,8 +8,12 @@ if($_POST)
     $Desc=$_POST['prodDescri'];
     $prix=floatval($_POST['prodPrix']);
     $red=floatval($_POST['prodRed']);
-    $id_cat=intval($_POST['prodCat']); 
-    $scr="INSERT INTO produit (Designation,Description,prix_std,reduction,id_cat) Values('$name','$Desc',$prix,$red,$id_cat)";
+    $id_cat=intval($_POST['prodCat']);
+    if(isset($_POST['fake_prix']))
+    {
+        $fake=$_POST['fake_prix'];
+        $scr="INSERT INTO produit (Designation,Description,prix_std,reduction,id_cat,prix_barre) Values('$name','$Desc',$prix,$red,$id_cat,$fake)";
+    } else $scr="INSERT INTO produit (Designation,Description,prix_std,reduction,id_cat) Values('$name','$Desc',$prix,$red,$id_cat)";
     $id_photo_scr="SELECT MAX(id_photo) as id from photo";
     $conn->query($scr);
     $id_prod=$conn->insert_id;

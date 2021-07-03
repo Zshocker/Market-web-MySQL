@@ -10,7 +10,7 @@ session_start();
     <link rel="StyleSheet" href="styleForInscrip.css">
     <link rel="StyleSheet" href="prods.css">
     <script src="JS Scripts/name.js"></script>
-    <link rel="stylesheet"  href="CssFontA/css/all.css">
+    <link rel="stylesheet" href="CssFontA/css/all.css">
     <script>
         function Get_Search(str) {
             return document.getElementById(str).value;
@@ -61,8 +61,8 @@ session_start();
                 $conn = Conect_ToBD("magasin_en_ligne", "root");
                 if (isset($_GET['search'])) {
                     $ser = $_GET['search'];
-                    $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit WHERE Designation LIKE '%$ser%' ORDER BY id_prod ";
-                } else $scr = "SELECT id_prod,Designation,prix_std,reduction FROM produit ORDER BY id_prod ";
+                    $scr = "SELECT id_prod,Designation,prix_std,reduction,prix_barre FROM produit WHERE Designation LIKE '%$ser%' ORDER BY id_prod ";
+                } else $scr = "SELECT id_prod,Designation,prix_std,reduction,prix_barre FROM produit ORDER BY id_prod ";
                 $result = $conn->query($scr);
 
                 while ($qe = $result->fetch_assoc()) {
@@ -74,6 +74,7 @@ session_start();
                     $name = $qe['Designation'];
                     $prix = $qe['prix_std'];
                     $red = floatval($qe['reduction']);
+                    $prixF = $qe['prix_barre'];
                     $red = $red * 100;
                 ?>
                     <div class="boxProd">
@@ -97,7 +98,15 @@ session_start();
                                 <center><a class="Prod_name" href="ProdInfo.php?id=<?php echo $id_prod;  ?>"><span> <?php echo $name;  ?></span></a></center>
                             </div>
                             <div style="margin-top: 25px; margin-left: 5px; margin-right:5px;">
+                                <?php
+                                if ($prixF != "0") {
+                                ?>
+                                    <del style="font-weight:bold; margin:5px; float:left;"><?php echo $prixF;  ?>DH</del>
+                                <?php
+                                }
+                                ?>
                                 <span style="font-weight:bold; margin:5px; float:left;"><?php echo $prix;  ?>DH</span>
+                                
                             </div>
                         </div>
 
