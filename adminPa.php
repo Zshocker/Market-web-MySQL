@@ -96,11 +96,11 @@ $result = $conn->query($scr);
                                     <td><img src="<?php echo $imag; ?>" style="width:50px;height:50px;"></td>
                                     <td><?php echo "$name" ?></td>
                                     <td><?php echo "$prix" ?></td>
-                                    <td><?php 
-                                    $qant=Get_qte($id_prod);
-                                    if($qant<=0)echo "<b style='color:red;'>Out of stock</b>";
-                                    else echo $qant;
-                                    ?></td>
+                                    <td><?php
+                                        $qant = Get_qte($id_prod);
+                                        if ($qant <= 0) echo "<b style='color:red;'>Out of stock</b>";
+                                        else echo $qant;
+                                        ?></td>
                                     <td><?php echo "$redP" ?>%</td>
                                     <td><?php echo "$desc" ?></td>
                                     <td><?php echo "$cat" ?></td>
@@ -376,7 +376,7 @@ $result = $conn->query($scr);
                             <select id="SelectForn" name="fornis" required>
                                 <option></option>
                                 <?php
-                                $resultE = $conn->query("Select * from forniseur");
+                                $resultE = $conn->query("Select * from fornisseur");
                                 while ($qe = $resultE->fetch_assoc()) {
                                     $content = $qe['nom_forn'];
                                     $id = $qe['id_forn'];
@@ -388,7 +388,7 @@ $result = $conn->query($scr);
                             <input type="submit" name='AjouterAchat' value="Ajouter" id="Ajach" onclick="return confirm('are you sure?');">
                         </div>
                     </div>
-                    
+
                 </form>
             </div>
         </center>
@@ -455,7 +455,6 @@ $result = $conn->query($scr);
             }
             return true;
         })
-        
     </script>
 
 </body>
